@@ -34,8 +34,14 @@ open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val a = findViewById<EditText>(R.id.aaa)
-        Log.i("ASD", a.getText().toString())
+        IntVariable("variable")
+        AssignmentOperation("variable", "123")
+        OutputBlock("variable")
+        StaticArray("array", "10")
+        InputBlock("array[0],array[1],array[2],array[3]", "1,2,3,4")
+        AssignmentOperation("array[4]","array[0]+array[1]+array[2]+array[3]")
+        OutputBlock("array[array[0]+array[2]]")
+        OutputBlock("array[4]")
     }
 
 }

@@ -96,6 +96,8 @@ class Expression(expression: String): MainActivity() {
                 finalExpression = finalExpression.replace("(-", "(0-")
                 finalExpression = finalExpression.replace("+-", "+0-")
                 finalExpression = finalExpression.replace("--", "-0-")
+                finalExpression = finalExpression.replace("*-", "*(0-1)*")
+                finalExpression = finalExpression.replace("/-", "*(0-1)/")
                 if(finalExpression[0] == '-') {
                     finalExpression = finalExpression.padStart(finalExpression.length + 1, '0')
                 }
