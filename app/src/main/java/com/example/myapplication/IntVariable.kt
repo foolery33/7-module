@@ -4,6 +4,8 @@ class IntVariable(): MainActivity() {
 
     var name: String = ""
     var value: Int = 0
+    var success = true
+    var errors = mutableListOf<String>()
 
     constructor(string: String) : this() {
         if (isCorrectVariableName(string)) {
@@ -15,24 +17,24 @@ class IntVariable(): MainActivity() {
             processSequenceOfVariables(string)
         }
         else {
-            println("Cannot process string `$string`")
-            success = false
+            this.errors.add("Cannot process string $string")
+            this.success = false
         }
     }
 
     private fun isSequenceOfVariables(sequenceOfVariables: String): Boolean {
-        val matchResult = Regex("(([A-Za-z_]\\w*) *,* *)+").matchEntire(sequenceOfVariables)
+        val matchResult = Regex("(([A-Za-z]\\w*) *,* *)+").matchEntire(sequenceOfVariables)
         return if (matchResult != null) {
             true
         }
         else {
-            success = false
+            this.success = false
             false
         }
     }
 
     private fun processSequenceOfVariables(sequenceOfVariables: String) {
-        val variablesInSequence = Regex("[A-Za-z_]\\w*").findAll(sequenceOfVariables)
+        val variablesInSequence = Regex("[A-Za-z]\\w*").findAll(sequenceOfVariables)
         variablesInSequence.forEach { f ->
             val currentVariable: String = f.value
             addToMap(currentVariable, 0)
@@ -40,11 +42,7 @@ class IntVariable(): MainActivity() {
     }
 
     private fun isCorrectVariableName(name: String): Boolean {
-        val matchResult = Regex("[A-Za-z_]\\w*").matchEntire(name)
-        if(matchResult == null) {
-            return false
-        }
-        return true
+        return Regex("[A-Za-z]\\w*").matchEntire(name) != null
     }
 
 }
