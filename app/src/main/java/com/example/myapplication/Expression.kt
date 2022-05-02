@@ -257,7 +257,7 @@ class Expression(expression: String): MainActivity() {
                     val num2 = result.pop().toInt()
                     val num1 = result.pop().toInt()
 
-                    if (num2 == 0) {
+                    if(num2 == 0 && item[0]=='/') {
                         msgError = "error"
                         break
                     }
@@ -269,6 +269,7 @@ class Expression(expression: String): MainActivity() {
                             '*' -> num1 * num2
                             '/' -> num1 / num2
                             '%' -> num1 % num2
+                            '^' -> (num1.toDouble().pow(num2)).toInt()
                             else -> 0
                         }.toString()
                     )

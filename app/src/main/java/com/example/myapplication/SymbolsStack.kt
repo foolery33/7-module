@@ -26,6 +26,7 @@ class SymbolsStack {
             '*' -> 3
             '/' -> 3
             '%' -> 3
+            '^' -> 3
             else -> -1
         }
     }
