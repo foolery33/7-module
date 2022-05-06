@@ -1,6 +1,9 @@
 package com.example.myapplication
 
+import kotlin.math.pow
+
 class Expression(expression: String): MainActivity() {
+
 
     open var expression = ""
     var correctExpression: String? = null
@@ -11,25 +14,22 @@ class Expression(expression: String): MainActivity() {
     init {
         this.expression = expression
         var newExpression = getCorrectExpression(this.expression)
-        if (newExpression != null) {
+        if (newExpression != null && this.success) {
             this.correctExpression = newExpression
-            this.valueOfExpression = getVal(this.correctExpression.toString());
+            this.valueOfExpression = getVal(this.correctExpression.toString())
         }
     }
 
-    /*private fun getValueOfExpression(): Int {
-
-    }*/
-
     private fun isCorrectExpression(expression: String): Boolean {
 
-        val expressionWithoutArrays = processArrays(expression)
+        var isGoodExpression = processArrays(expression)
+        isGoodExpression = processBrackets(isGoodExpression)
 
         val nonZeroVariable = "(?:-?(?:[1-9][0-9]*|[a-zA-Z]\\w*))"
         val zeroVariable = "(?:-?(?:0|[1-9][0-9]*|[a-zA-Z]\\w*))"
-        val correctExpression = "$zeroVariable(?:[+*/%-]$nonZeroVariable|[+*-]$zeroVariable)*"
+        val correctExpression = "$zeroVariable(?:[+*/%^-]$nonZeroVariable|[+*^-]$zeroVariable)*"
 
-        return Regex(correctExpression).matchEntire(expressionWithoutArrays) != null
+        return Regex(correctExpression).matchEntire(isGoodExpression) != null
     }
 
     private fun processArrays(expression: String): String {
@@ -43,7 +43,8 @@ class Expression(expression: String): MainActivity() {
                 value = value.replace("[", "")
                 value = value.replace("]", "")
                 if(isCorrectExpression(value)) {
-                    newExpression = newExpression.replace(f.value, "s__n")
+                    newExpression = replaceElement(f.value, newExpression, "s__n")
+                    //newExpression = newExpression.replace(f.value, "s__n")
                 }
                 else {
                     return newExpression
@@ -64,7 +65,8 @@ class Expression(expression: String): MainActivity() {
                 value = value.replace("(", "")
                 value = value.replace(")", "")
                 if (isCorrectExpression(value)) {
-                    newExpression = newExpression.replace(f.value, "s__n")
+                    newExpression = replaceElement(f.value, newExpression, "s__n")
+                    //newExpression = newExpression.replace(f.value, "s__n")
                 }
                 else {
                     return newExpression
@@ -77,21 +79,13 @@ class Expression(expression: String): MainActivity() {
 
     private fun getCorrectExpression(expression: String): String? {
 
-        val expressionWithoutSpace = expression.replace(" ", "");
-
-        val expressionWithoutBrackets = processBrackets(expressionWithoutSpace)
-
-        if (!isCorrectExpression(expressionWithoutBrackets)) {
-            this.errors.add("Cannot read expression '$expression'")
-            this.success = false
-            return null
-        }
+        val expressionWithoutSpace = expression.replace(" ", "")
 
         var finalExpression = expressionWithoutSpace
 
         finalExpression = replaceArrayElements(finalExpression)
         if(this.success) {
-            finalExpression = replaceVariables(finalExpression)
+            finalExpression = replaceIntVariables(finalExpression)
             if(this.success) {
                 finalExpression = finalExpression.replace("(-", "(0-")
                 finalExpression = finalExpression.replace("+-", "+0-")
@@ -101,28 +95,46 @@ class Expression(expression: String): MainActivity() {
                 if(finalExpression[0] == '-') {
                     finalExpression = finalExpression.padStart(finalExpression.length + 1, '0')
                 }
-                return finalExpression
+
+                if (!isCorrectExpression(finalExpression)) {
+                    if(finalExpression.contains("/0")) {
+                        this.errors.add("Expression ${this.expression} contains division by zero")
+                        this.success = false
+                    }
+                    else {
+                        this.errors.add("Cannot read expression '$expression'")
+                        this.success = false
+                    }
+                    return null
+                }
             }
         }
-        return null
+
+        return finalExpression
     }
 
     fun replaceArrayElements(text: String): String {
         var editedText = text
         while (Regex("\\[[^\\[\\]]+]").containsMatchIn(editedText) && this.success) {
-            val variablesInExpression = Regex("([a-zA-Z]\\w*\\[[^\\[\\]]+])").findAll(editedText)
-            variablesInExpression.forEach { f ->
+            val intVariablesInExpression = Regex("([a-zA-Z]\\w*\\[[^\\[\\]]+])").findAll(editedText)
+            intVariablesInExpression.forEach { f ->
                 val currentVariable: String = f.value
                 val nameOfArray = getNameOfArray(currentVariable)
-                if (arrays.containsKey(nameOfArray)) {
+                if (intArrays.containsKey(nameOfArray)) {
                     val inBrackets = getInBracketsExpression(currentVariable)
                     val inBracketExpression = Expression(inBrackets)
-                    if (arrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()] != -92314123) {
-                        editedText = editedText.replace(currentVariable, arrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()].toString())
+                    if (intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()] != -92314123) {
+                        editedText = replaceElement(currentVariable, editedText, intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()].toString())
                     }
                     else {
-                        this.success = false
-                        this.errors.add("Variable $currentVariable has not been declared")
+                        if(inBracketExpression.valueOfExpression.toInt() > intArrays[nameOfArray]!!.size) {
+                            this.success = false
+                            this.errors.add("Index $inBrackets = ${inBracketExpression.valueOfExpression} is out of array's $nameOfArray range")
+                        }
+                        else {
+                            this.success = false
+                            this.errors.add("Variable $currentVariable has not been declared")
+                        }
                     }
                 }
                 else {
@@ -134,13 +146,14 @@ class Expression(expression: String): MainActivity() {
         return editedText
     }
 
-    fun replaceVariables(text: String): String {
+    fun replaceIntVariables(text: String): String {
         var editedText = text
-        val variablesInExpression = Regex("([a-zA-Z]\\w*)").findAll(text)
-        variablesInExpression.forEach { f ->
+        val intVariablesInExpression = Regex("([a-zA-Z]\\w*)").findAll(text)
+        intVariablesInExpression.forEach { f ->
             val currentVariable: String = f.value
-            if (variables.containsKey(currentVariable)) {
-                editedText = editedText.replace(currentVariable, variables[currentVariable].toString())
+            if (intVariables.containsKey(currentVariable)) {
+                // Замена переменной её числовым значением
+                editedText = replaceElement(currentVariable, editedText, intVariables[currentVariable].toString())
             }
             else {
                 this.errors.add("Variable $currentVariable has not been declared")
@@ -149,6 +162,8 @@ class Expression(expression: String): MainActivity() {
         }
         return editedText
     }
+
+
 
     fun getNameOfArray(text: String): String {
         var nameOfArray = ""
@@ -178,6 +193,62 @@ class Expression(expression: String): MainActivity() {
             }
         }
         return inBracketsExpression
+    }
+
+    fun replaceElement(element: String, text: String, replacingValue: String): String {
+
+        var editedText = text
+
+        var regexElement = element
+        if(element.contains('(')) {
+            regexElement = regexElement.replace("(", "\\(")
+        }
+        if(element.contains(')')) {
+            regexElement = regexElement.replace(")", "\\)")
+        }
+        if(element.contains('[')) {
+            regexElement = regexElement.replace("[", "\\[")
+        }
+        if(element.contains(']')) {
+            regexElement = regexElement.replace("]", "\\]")
+        }
+        if(element.contains('+')) {
+            regexElement = regexElement.replace("+", "\\+")
+        }
+        if(element.contains('-')) {
+            regexElement = regexElement.replace("-", "\\-")
+        }
+
+        var indexes = regexElement.toRegex().findAll(text).map { it.range.first }.toList()
+
+        for (i in indexes.indices) {
+            val currentBeginIndex = indexes[i]
+            val currentEndIndex = currentBeginIndex + element.length
+            if(currentBeginIndex > 0 && currentEndIndex < editedText.length) {
+                // если предыдуших символ - часть этой же переменной, то это вхождение заменять не будем
+                if(Regex("\\w").matchEntire(editedText[currentBeginIndex - 1].toString()) == null && Regex("\\w").matchEntire(editedText[currentEndIndex].toString()) == null) {
+                    editedText = editedText.replaceRange(currentBeginIndex, currentEndIndex, replacingValue)
+                    break
+                }
+            }
+            else if(currentBeginIndex == 0 && currentEndIndex < editedText.length) {
+                if(Regex("\\w").matchEntire(editedText[currentEndIndex].toString()) == null) {
+                    editedText = editedText.replaceRange(currentBeginIndex, currentEndIndex, replacingValue)
+                    break
+                }
+            }
+            else if(currentBeginIndex > 0 && currentEndIndex >= editedText.length) {
+                if(Regex("\\w").matchEntire(editedText[currentBeginIndex - 1].toString()) == null) {
+                    editedText = editedText.replaceRange(currentBeginIndex, currentEndIndex, replacingValue)
+                    break
+                }
+            }
+            else {
+                editedText = editedText.replace(element, replacingValue)
+            }
+        }
+
+        return editedText
     }
 
     fun getVal(expression: String): String {
@@ -257,8 +328,9 @@ class Expression(expression: String): MainActivity() {
                     val num2 = result.pop().toInt()
                     val num1 = result.pop().toInt()
 
-                    if (num2 == 0) {
-                        msgError = "error"
+                    if(num2 == 0 && item[0]=='/') {
+                        this.success = false
+                        errors.add("Expression $input contains division by zero")
                         break
                     }
 
@@ -269,6 +341,7 @@ class Expression(expression: String): MainActivity() {
                             '*' -> num1 * num2
                             '/' -> num1 / num2
                             '%' -> num1 % num2
+                            '^' -> (num1.toDouble().pow(num2)).toInt()
                             else -> 0
                         }.toString()
                     )

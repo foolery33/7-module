@@ -45,4 +45,13 @@ class IntVariable(): MainActivity() {
         return Regex("[A-Za-z]\\w*").matchEntire(name) != null
     }
 
+    fun addToMap(name: String, value: Int) {
+        if(intVariables.containsKey(name)) {
+            intVariables[name] = value
+        }
+        else {
+            intVariables[name] = value
+        }
+    }
+
 }

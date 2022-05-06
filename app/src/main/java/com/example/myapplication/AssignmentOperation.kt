@@ -21,7 +21,7 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
                 this.expression = expressionAfterOperator.correctExpression as String
 
                 // Переменная - не элемент массива
-                if(variables.containsKey(nameOfVariable)) {
+                if(intVariables.containsKey(nameOfVariable)) {
                     this.nameOfVariable = nameOfVariable
                     addToMap(this.nameOfVariable, expressionAfterOperator.valueOfExpression.toInt())
                 }
@@ -36,7 +36,7 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
                             break
                         }
                     }
-                    if(arrays.containsKey(nameOfArray)) {
+                    if(intArrays.containsKey(nameOfArray)) {
                         // Ищем индекс элемента в массиве
                         var indexExpression = ""
                         var flag = false
@@ -57,7 +57,7 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
                             }
                         }
                         var index = Expression(indexExpression)
-                        arrays[nameOfArray]!![index.valueOfExpression.toInt()] = expressionAfterOperator.valueOfExpression.toInt()
+                        intArrays[nameOfArray]!![index.valueOfExpression.toInt()] = expressionAfterOperator.valueOfExpression.toInt()
                     }
                     else {
                         this.success = false
@@ -78,6 +78,15 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
 
     fun isArrayVariable(nameOfVariable: String): Boolean {
         return Regex("[a-zA-Z]\\w*\\[.+]").matchEntire(nameOfVariable) != null
+    }
+
+    fun addToMap(name: String, value: Int) {
+        if(intVariables.containsKey(name)) {
+            intVariables[name] = value
+        }
+        else {
+            intVariables[name] = value
+        }
     }
 
 }

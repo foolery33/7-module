@@ -19,7 +19,13 @@ class StaticArray(name: String, length: String): MainActivity() {
 
         var expression = Expression(length)
         if(expression.success) {
-            this.length = expression.valueOfExpression.toInt()
+            if(expression.valueOfExpression.toInt() > 0) {
+                this.length = expression.valueOfExpression.toInt()
+            }
+            else {
+                this.success = false
+                this.errors.add("Length of array can't be less than zero")
+            }
         }
         else {
             this.success = false
@@ -27,13 +33,13 @@ class StaticArray(name: String, length: String): MainActivity() {
         }
 
         if(this.success) {
-            if(!arrays.containsKey(this.name)) {
-                if(variables.containsKey(this.name)) {
+            if(!intArrays.containsKey(this.name)) {
+                if(intVariables.containsKey(this.name)) {
                     this.success = false
                     this.errors.add("Variable ${this.name} has the same name")
                 }
                 else {
-                    arrays[this.name] = Array(this.length) { -92314123 }
+                    intArrays[this.name] = Array(this.length) { -92314123 }
                 }
             }
             else {

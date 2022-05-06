@@ -5,18 +5,24 @@ class OutputBlock(name: String): MainActivity() {
     var name = ""
     var errors = mutableListOf<String>()
     var success = true
-    var outputValue = ""
+    var outputValue = mutableListOf<String>()
 
     init {
         this.name = name
-        var nameExpression = Expression(name)
-        if(nameExpression.success) {
-            this.outputValue = nameExpression.valueOfExpression
-            println(this.outputValue)
-        }
-        else {
-            this.errors.add("Variable $name has not been declared")
-            this.success = false
+        var elements = name.split(",")
+        for (i in elements) {
+            var elementExpression = Expression(i)
+            if(elementExpression.success) {
+                this.outputValue.add(elementExpression.valueOfExpression)
+                print("${elementExpression.valueOfExpression} ")
+            }
+            else {
+                this.success = false
+                for (j in elementExpression.errors) {
+                    this.errors.add(j)
+                }
+            }
         }
     }
+
 }
