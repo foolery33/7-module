@@ -1,46 +1,69 @@
 package com.example.myapplication
 
-class FunctionBlock(name: String, arguments: String, returnValue: String, numberOfFunctionCommands: String): MainActivity() {
+class FunctionBlock(name: String, arguments: String): MainActivity() {
 
     var name = ""
     var listOfArguments = listOf<String>()
     var localVariables = mutableMapOf<String, Int>()
     var localArrays = mutableMapOf<String, Array<Int> >()
-    var numberOfFunctionCommands = -1
+    var returnValue = -1
     var success = true
     var errors = mutableListOf<String>()
 
     init {
         if(functions.containsKey(name)) {
-            this.numberOfFunctionCommands = numberOfFunctionCommands.toInt()
-            this.name = name
-            this.listOfArguments = arguments.split(",")
-            if(this.listOfArguments.size != functions[this.name]!!.size) {
+            var openBracketsCounter = arguments.count { i -> i == '(' }
+            var closeBracketsCounter = arguments.count { i -> i == ')' }
+            if (openBracketsCounter != closeBracketsCounter) {
                 this.success = false
-                this.errors.add("Number of provided arguments doesn't match to number of function ${this.name} arguments")
+                this.errors.add("Number of open brackets in arguments $arguments doesn't equal to number of close brackets")
             }
             else {
-                /*if(flag == "function") {
-
-                }*/
-                makeLocalVariables()
-                if(this.success) {
-                    processCommands(functionCommands[this.numberOfFunctionCommands])
-                    var returnVal = Expression(returnValue).valueOfExpression.toInt()
+                this.name = name
+                this.listOfArguments = StringWithCommas(arguments).splittedElements
+                if (this.listOfArguments.size != functions[this.name]!!.size) {
+                    this.success = false
+                    this.errors.add("Number of provided arguments doesn't match to number of function ${this.name} arguments")
+                }
+                else {
+                    makeLocalVariables()
+                    if (this.success) {
+                        val mainVariables = intVariables
+                        val mainArrays = intArrays
+                        intVariables = this.localVariables
+                        intArrays = this.localArrays
+                        processCommands(functionCommands[functionNumberOfCommands[this.name]!!.toInt()])
+                        returnFlag = "default"
+                        this.returnValue = functionReturnValues[functionNumberOfCommands[this.name]!!.toInt()]!!
+                        intVariables = mainVariables
+                        intArrays = mainArrays
+                    }
                 }
             }
+        }
+        else {
+            this.success = false
+            this.errors.add("There is no function called $name")
         }
     }
 
     fun makeLocalVariables() {
         for (i in functions[this.name]!!.indices) {
-            val argument = Expression(listOfArguments[i])
-            if(this.success) {
-                val valueOfArgument = argument.valueOfExpression.toInt()
-                localVariables[listOfArguments[i]] = valueOfArgument
+            if(intArrays.containsKey(listOfArguments[i])) {
+                localArrays[listOfArguments[i]] = intArrays[listOfArguments[i]]!!
             }
             else {
-                break
+                val argument = Expression(listOfArguments[i])
+                if(argument.success) {
+                    val valueOfArgument = argument.valueOfExpression.toInt()
+                    localVariables[functions[this.name]!![i]] = valueOfArgument
+                }
+                else {
+                    this.success = false
+                    for (i in argument.errors) {
+                        this.errors.add(i)
+                    }
+                }
             }
         }
     }

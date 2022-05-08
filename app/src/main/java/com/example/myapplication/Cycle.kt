@@ -31,9 +31,6 @@ class Cycle(beforeOperator: String, operator: String, afterOperator: String, num
             this.operator = operator
             this.afterOperator = afterOperator
 
-            var beforeOperatorValue = beforeOperatorExpression.valueOfExpression.toInt()
-            var afterOperatorValue = afterOperatorExpression.valueOfExpression.toInt()
-
             while (true) {
                 var currentBeforeOperatorExpression = Expression(beforeOperator)
                 var currentAfterOperatorExpression = Expression(afterOperator)

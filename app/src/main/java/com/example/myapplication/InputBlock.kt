@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 class InputBlock(name: String, value: String): MainActivity() {
+
     var name = ""
     var value = ""
     var success = true
@@ -12,8 +13,8 @@ class InputBlock(name: String, value: String): MainActivity() {
         processData(this.name, this.value)
     }
     fun processData(name: String, value: String) {
-        var names = name.split(",")
-        var values = value.split(",")
+        var names = StringWithCommas(name).splittedElements
+        var values = StringWithCommas(value).splittedElements
         if(names.size != values.size) {
             this.errors.add("Number of variables doesn't match to number of values")
             this.success = false
@@ -31,4 +32,5 @@ class InputBlock(name: String, value: String): MainActivity() {
             }
         }
     }
+
 }

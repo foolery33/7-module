@@ -8,29 +8,37 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlin.system.exitProcess
 
 open class MainActivity : AppCompatActivity() {
 
     companion object {
 
         @JvmField
-        var intVariables = mutableMapOf<String, Int>()
-        //var stringVariables = mutableMapOf<String, String>()
-        var intArrays = mutableMapOf<String, Array<Int>>()
-        var functions = mutableMapOf<String, MutableList<String>>()
+        var intVariables: MutableMap<String, Int> = mutableMapOf()
+        var intArrays: MutableMap<String, Array<Int> > = mutableMapOf()
+        var functions: MutableMap<String, MutableList<String> > = mutableMapOf()
 
         var commands: MutableList<String> = mutableListOf()
         var ifConditions: MutableList<MutableList<String> > = mutableListOf()
         var elseConditions: MutableList<MutableList<String> > = mutableListOf()
         var cycleCommands: MutableList<MutableList<String> > = mutableListOf()
         var functionCommands: MutableList<MutableList<String> > = mutableListOf()
+        var functionReturnValues: MutableMap<Int, Int> = mutableMapOf()
+        var functionNumberOfCommands: MutableMap<String, Int> = mutableMapOf()
 
         var ifConditionsCounter = -1
         var elseConditionsCounter = -1
         var cycleCommandsCounter = -1
+        var functionCommandsCounter = 0
+
+        var returnFlag = "default"
 
         fun processCommands(commands: MutableList<String>) {
             for (i in commands.indices) {
+                if(returnFlag == "return") {
+                    break
+                }
                 var splitted = commands[i].split(" ")
                 when (splitted[0]) {
                     "int" -> {
@@ -39,7 +47,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "assignment" -> {
@@ -48,7 +56,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "input" -> {
@@ -57,7 +65,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "output" -> {
@@ -66,7 +74,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "if" -> {
@@ -75,7 +83,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "else" -> {
@@ -84,7 +92,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "array" -> {
@@ -93,7 +101,7 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "cycle" -> {
@@ -102,11 +110,31 @@ open class MainActivity : AppCompatActivity() {
                             for (j in a.errors) {
                                 println(j)
                             }
-                            break
+                            exitProcess(0)
                         }
                     }
                     "function" -> {
-                        //val a = FunctionBlock()
+                        val a = FunctionBlock(splitted[1], splitted[2])
+                        if(!a.success) {
+                            for (j in a.errors) {
+                                println(j)
+                            }
+                            exitProcess(0)
+                        }
+                    }
+                    "return" -> {
+                        val a = Expression(splitted[1])
+                        if(!a.success) {
+                            for (j in a.errors) {
+                                println(j)
+                            }
+                            exitProcess(0)
+                        }
+                        else {
+                            functionReturnValues[functionCommandsCounter] = a.valueOfExpression.toInt()
+                            returnFlag = "return"
+                            break
+                        }
                     }
                 }
             }
@@ -117,38 +145,29 @@ open class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*commands.add("int i,j,k")
-    commands.add("assignment i 0")
-    commands.add("assignment j 0")
-    commands.add("assignment k 0")
-    commands.add("array a 10")
-    commands.add("input a[0],a[1],a[2],a[a[2]+1],a[4],a[5],a[6],a[7],a[8],a[9] 10,5,2,3,6,8,4,1,7,9")
-    commands.add("cycle i < 10 0")
 
-    cycleCommands.add(mutableListOf("assignment j i+1", "cycle j < 10 1", "assignment i i+1"))
-    commands.add("cycle j < 10 1")
-
-    cycleCommands.add(mutableListOf("if a[i] > a[j] 0", "assignment j j+1"))
-    ifConditions.add(mutableListOf("int t", "assignment t a[i]", "assignment a[i] a[j]", "assignment a[j] t"))
-
-    commands.add("cycle k < 10 2")
-    cycleCommands.add(mutableListOf("output a[k]", "assignment k k+1"))
-
-    processCommands(commands)*/
-        /*functions["sum"] = mutableListOf("a", "b")
-        functionCommands.add(mutableListOf("int c", "assignment c a+b"))
-        FunctionBlock("sum", "0,1", "c","0")*/
-
-        commands.add("int n,i")
-        commands.add("array a 4")
-        commands.add("input n 8")
-        commands.add("if n == 0 0")
-        commands.add("else n == 0 0")
-        ifConditions.add(mutableListOf("output 0"))
-        elseConditions.add(mutableListOf("cycle n != 0 0", "assignment i 3", "cycle i >= 0 1"))
-        cycleCommands.add(mutableListOf("assignment a[i] n%2", "assignment n n/2", "assignment i i+1"))
-        cycleCommands.add(mutableListOf("output a[i]", "assignment i i-1"))
+        commands.add("int n")
+        commands.add("array recurs 100")
+        commands.add("int i")
+        commands.add("cycle i < 100 0")
+        cycleCommands.add(mutableListOf("assignment recurs[i] 0", "assignment i i+1"))
+        commands.add("input n 65")
+        functions["chislo"] = mutableListOf("n", "recurs")
+        functionCommands.add(mutableListOf("if n == 1 0", "if n == 2 1", "if recurs[n-2] != 0 2", "if recurs[n-2] != 0 3", "if recurs[n-3] != 0 4", "if recurs[n-2] == 0 5"))
+        functionNumberOfCommands["chislo"] = 0
+        ifConditions.add(mutableListOf("assignment recurs[n-1] 0", "return 0"))
+        ifConditions.add(mutableListOf("assignment recurs[n-1] 1", "return 1"))
+        ifConditions.add(mutableListOf("if recurs[n-3] == 0 6"))
+        ifConditions.add(mutableListOf("if recurs[n-3] != 0 7"))
+        ifConditions.add(mutableListOf("if recurs[n-2] == 0 8"))
+        ifConditions.add(mutableListOf("if recurs[n-3] == 0 9"))
+        ifConditions.add(mutableListOf("assignment recurs[n-3] chislo(n-2,recurs)", "return recurs[n-2]+chislo(n-2,recurs)"))
+        ifConditions.add(mutableListOf("return recurs[n-2]+recurs[n-3]"))
+        ifConditions.add(mutableListOf("assignment recurs[n-2] chislo(n-1,recurs)", "return recurs[n-3]+chislo(n-1,recurs)"))
+        ifConditions.add(mutableListOf("assignment recurs[n-2] chislo(n-1,recurs)", "assignment recurs[n-3] chislo(n-2,recurs)", "return chislo(n-1,recurs)+chislo(n-2,recurs)"))
+        commands.add("output chislo(n,recurs)")
         processCommands(commands)
+
     }
 
 }

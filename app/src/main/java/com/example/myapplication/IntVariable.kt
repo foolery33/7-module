@@ -50,7 +50,8 @@ class IntVariable(): MainActivity() {
             intVariables[name] = value
         }
         else {
-            intVariables[name] = value
+            this.success = false
+            this.errors.add("Variable $name has already been declared")
         }
     }
 

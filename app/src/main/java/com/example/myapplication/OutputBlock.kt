@@ -9,7 +9,7 @@ class OutputBlock(name: String): MainActivity() {
 
     init {
         this.name = name
-        var elements = name.split(",")
+        var elements = StringWithCommas(name).splittedElements
         for (i in elements) {
             var elementExpression = Expression(i)
             if(elementExpression.success) {
@@ -24,5 +24,4 @@ class OutputBlock(name: String): MainActivity() {
             }
         }
     }
-
 }

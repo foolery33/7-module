@@ -4,7 +4,6 @@ import kotlin.math.pow
 
 class Expression(expression: String): MainActivity() {
 
-
     open var expression = ""
     var correctExpression: String? = null
     var valueOfExpression = ""
@@ -83,29 +82,32 @@ class Expression(expression: String): MainActivity() {
 
         var finalExpression = expressionWithoutSpace
 
-        finalExpression = replaceArrayElements(finalExpression)
+        finalExpression = replaceFunctions(finalExpression)
         if(this.success) {
-            finalExpression = replaceIntVariables(finalExpression)
+            finalExpression = replaceArrayElements(finalExpression)
             if(this.success) {
-                finalExpression = finalExpression.replace("(-", "(0-")
-                finalExpression = finalExpression.replace("+-", "+0-")
-                finalExpression = finalExpression.replace("--", "-0-")
-                finalExpression = finalExpression.replace("*-", "*(0-1)*")
-                finalExpression = finalExpression.replace("/-", "*(0-1)/")
-                if(finalExpression[0] == '-') {
-                    finalExpression = finalExpression.padStart(finalExpression.length + 1, '0')
-                }
+                finalExpression = replaceIntVariables(finalExpression)
+                if(this.success) {
+                    finalExpression = finalExpression.replace("(-", "(0-")
+                    finalExpression = finalExpression.replace("+-", "+0-")
+                    finalExpression = finalExpression.replace("--", "-0-")
+                    finalExpression = finalExpression.replace("*-", "*(0-1)*")
+                    finalExpression = finalExpression.replace("/-", "*(0-1)/")
+                    if(finalExpression[0] == '-') {
+                        finalExpression = finalExpression.padStart(finalExpression.length + 1, '0')
+                    }
 
-                if (!isCorrectExpression(finalExpression)) {
-                    if(finalExpression.contains("/0")) {
-                        this.errors.add("Expression ${this.expression} contains division by zero")
-                        this.success = false
+                    if (!isCorrectExpression(finalExpression)) {
+                        if(finalExpression.contains("/0")) {
+                            this.errors.add("Expression ${this.expression} contains division by zero")
+                            this.success = false
+                        }
+                        else {
+                            this.errors.add("Cannot read expression '$expression'")
+                            this.success = false
+                        }
+                        return null
                     }
-                    else {
-                        this.errors.add("Cannot read expression '$expression'")
-                        this.success = false
-                    }
-                    return null
                 }
             }
         }
@@ -113,29 +115,70 @@ class Expression(expression: String): MainActivity() {
         return finalExpression
     }
 
+    fun replaceFunctions(text: String): String {
+
+        var editedText = text
+        val functionsInExpression = Regex("([a-zA-Z]\\w*\\(.+\\))").findAll(text)
+        functionsInExpression.forEach { f ->
+            val currentFunction: String = f.value
+            val functionsExpression = getFunctionExpressions(editedText)
+            for (i in functionsExpression) {
+                if(Regex("[a-zA-Z]\\w*\\(.+\\)").matchEntire(i) != null) {
+                    if (functions.containsKey(getElementName(i, '('))) {
+                        var func = FunctionBlock(getElementName(i, '('), getInBracketsExpression(i, '(', ')'))
+                        if (func.success) {
+                            editedText = replaceElement(i, editedText, func.returnValue.toString())
+                        }
+                        else {
+                            this.success = false
+                            for (i in func.errors) {
+                                this.errors.add(i)
+                            }
+                        }
+                        // Замена функции её числовым значением
+                    }
+                    else {
+                        this.errors.add("Function $i has not been declared")
+                        this.success = false
+                    }
+                }
+            }
+        }
+
+        return editedText
+    }
+
     fun replaceArrayElements(text: String): String {
+
         var editedText = text
         while (Regex("\\[[^\\[\\]]+]").containsMatchIn(editedText) && this.success) {
             val intVariablesInExpression = Regex("([a-zA-Z]\\w*\\[[^\\[\\]]+])").findAll(editedText)
             intVariablesInExpression.forEach { f ->
                 val currentVariable: String = f.value
-                val nameOfArray = getNameOfArray(currentVariable)
+                val nameOfArray = getElementName(currentVariable, '[')
                 if (intArrays.containsKey(nameOfArray)) {
-                    val inBrackets = getInBracketsExpression(currentVariable)
+                    val inBrackets = getInBracketsExpression(currentVariable, '[', ']')
                     val inBracketExpression = Expression(inBrackets)
-                    if (intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()] != -92314123) {
-                        editedText = replaceElement(currentVariable, editedText, intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()].toString())
-                    }
-                    else {
-                        if(inBracketExpression.valueOfExpression.toInt() > intArrays[nameOfArray]!!.size) {
-                            this.success = false
-                            this.errors.add("Index $inBrackets = ${inBracketExpression.valueOfExpression} is out of array's $nameOfArray range")
+                    try {
+                        if (intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()] != -92314123) {
+                            editedText = replaceElement(currentVariable, editedText, intArrays[nameOfArray]!![inBracketExpression.valueOfExpression.toInt()].toString())
                         }
                         else {
-                            this.success = false
-                            this.errors.add("Variable $currentVariable has not been declared")
+                            if(inBracketExpression.valueOfExpression.toInt() > intArrays[nameOfArray]!!.size) {
+                                this.success = false
+                                this.errors.add("Index $inBrackets = ${inBracketExpression.valueOfExpression} is out of array's $nameOfArray range")
+                            }
+                            else {
+                                this.success = false
+                                this.errors.add("Variable $currentVariable has not been declared")
+                            }
                         }
                     }
+                    catch (e: Exception) {
+                        this.success = false
+                        this.errors.add("Index $inBrackets = ${inBracketExpression.valueOfExpression} is out of array's $nameOfArray range")
+                    }
+
                 }
                 else {
                     this.errors.add("Array $nameOfArray has not been declared")
@@ -163,12 +206,53 @@ class Expression(expression: String): MainActivity() {
         return editedText
     }
 
+    fun getFunctionExpressions(text: String): MutableList<String> {
+        var list: MutableList<String> = mutableListOf()
+        var currentExpression = ""
+        var counter = 0
+        var operators = "+-/%^*"
+        var i = 0
+        while (i < text.length) {
+            if(text[i] != '(') {
+                if(text[i] !in operators) {
+                    currentExpression += text[i]
+                }
+                else {
+                    list.add(currentExpression)
+                    currentExpression = ""
+                }
+            }
+            else {
+                var j = i
+                do {
+                    if(text[j] == '(') {
+                        counter++
+                    }
+                    else if(text[j] == ')') {
+                        counter--
+                    }
+                    currentExpression += text[j]
+                    j++
+                } while (counter != 0 && j < text.length)
+                if(j > i) {
+                    i = j - 1
+                }
+                else {
+                    i = j
+                }
+            }
+            i++
+        }
+        if(currentExpression.length != 0) {
+            list.add(currentExpression)
+        }
+        return list
+    }
 
-
-    fun getNameOfArray(text: String): String {
+    fun getElementName(text: String, openBracket: Char): String {
         var nameOfArray = ""
         for (i in text) {
-            if(i != '[') {
+            if(i != openBracket) {
                 nameOfArray += i
             }
             else {
@@ -178,20 +262,28 @@ class Expression(expression: String): MainActivity() {
         return nameOfArray
     }
 
-    fun getInBracketsExpression(text: String): String {
+    fun getInBracketsExpression(text: String, openBracket: Char, closeBracket: Char): String {
         var inBracketsExpression = ""
+        var bracketsCounter = 0
         var flag = false
-        for (i in text) {
-            if(i == ']') {
+        var i = 0
+        while (true) {
+            if(text[i] == openBracket) {
+                bracketsCounter++
+                flag = true
+            }
+            else if(text[i] == closeBracket) {
+                bracketsCounter--
+            }
+            if(bracketsCounter == 0 && flag) {
                 break
             }
             if(flag) {
-                inBracketsExpression += i
+                inBracketsExpression += text[i]
             }
-            if(i == '[') {
-                flag = true
-            }
+            i++
         }
+        inBracketsExpression = inBracketsExpression.removeRange(0, 1)
         return inBracketsExpression
     }
 
@@ -347,13 +439,15 @@ class Expression(expression: String): MainActivity() {
                     )
                 }
             }
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             msgError = "error"
         }
 
         return if (msgError.isEmpty()) {
             result.pop()
-        } else {
+        }
+        else {
             msgError
         }
     }
