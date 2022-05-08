@@ -151,7 +151,7 @@ open class MainActivity : AppCompatActivity() {
         commands.add("int i")
         commands.add("cycle i < 100 0")
         cycleCommands.add(mutableListOf("assignment recurs[i] 0", "assignment i i+1"))
-        commands.add("input n 65")
+        commands.add("input n 45")
         functions["chislo"] = mutableListOf("n", "recurs")
         functionCommands.add(mutableListOf("if n == 1 0", "if n == 2 1", "if recurs[n-2] != 0 2", "if recurs[n-2] != 0 3", "if recurs[n-3] != 0 4", "if recurs[n-2] == 0 5"))
         functionNumberOfCommands["chislo"] = 0

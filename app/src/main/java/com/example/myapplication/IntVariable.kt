@@ -47,11 +47,11 @@ class IntVariable(): MainActivity() {
 
     fun addToMap(name: String, value: Int) {
         if(intVariables.containsKey(name)) {
-            intVariables[name] = value
-        }
-        else {
             this.success = false
             this.errors.add("Variable $name has already been declared")
+        }
+        else {
+            intVariables[name] = value
         }
     }
 

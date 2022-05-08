@@ -1,5 +1,7 @@
 package com.example.myapplication
 
+import android.util.Log
+
 class OutputBlock(name: String): MainActivity() {
 
     var name = ""
@@ -14,7 +16,7 @@ class OutputBlock(name: String): MainActivity() {
             var elementExpression = Expression(i)
             if(elementExpression.success) {
                 this.outputValue.add(elementExpression.valueOfExpression)
-                print("${elementExpression.valueOfExpression} ")
+                Log.i("ASD", elementExpression.valueOfExpression)
             }
             else {
                 this.success = false
