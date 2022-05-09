@@ -11,26 +11,40 @@ import android.widget.RelativeLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.navigation.NavigationView
+import java.util.concurrent.PriorityBlockingQueue
 import kotlin.contracts.InvocationKind
+import androidx.recyclerview.widget.ListAdapter
 
-interface ViewHolderManager{
+interface HasStringId{
+    val id: String
+}
+
+class BaseDiffCallback: DiffUtil.ItemCallback<HasStringId>(){
+    override fun areItemsTheSame(oldItem: HasStringId, newItem: HasStringId): Boolean = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: HasStringId, newItem: HasStringId): Boolean = oldItem == newItem
+}
+
+interface ViewHoldersManager{
     fun registerViewHolder(itemType: Int, viewHolder: ViewHolderVisitor)
     fun getItemType(item: Any): Int
     fun getViewHolder(itemType: Int): ViewHolderVisitor
 }
 
 object ItemTypes{
-    const val Init_int = -1
-    const val Init_array = 0
-    const val Input_ = 1
-    const val Output_ = 2
-    const val If_ = 3
-    const val Cycle_ = 4
-    const val Function_ = 5
-    const val Assigment_ = 6
+    const val UNKNOWN = -1
+    const val Init_int = 0
+    const val Init_array = 1
+    const val Input_ = 2
+    const val Output_ = 3
+    const val If_ = 4
+    const val Cycle_ = 5
+    const val Function_ = 6
+    const val Assigment_ = 7
 }
 
 object DiModule{
@@ -46,13 +60,45 @@ object DiModule{
     }
 }
 
+class AssigmentViewHolder : ViewHolderVisitor {
+
+}
+
+class FunctionViewHolder : ViewHolderVisitor {
+
+}
+
+class CycleViewHolder : ViewHolderVisitor {
+
+}
+
+class IfViewHolder : ViewHolderVisitor {
+
+}
+
+class OutputViewHolder : ViewHolderVisitor {
+
+}
+
+class InputViewHolder : ViewHolderVisitor {
+
+}
+
+class InitArrayViewHolder : ViewHolderVisitor {
+
+}
+
+class InitIntViewHolder : ViewHolderVisitor {
+
+}
+
 interface ViewHolderVisitor{
     val layout: Int
     fun acceptBinding(item: Any): Boolean
     fun bind(binding: ViewDataBinding, item: Any, clickListener: AdapterClickListenerById)
 }
 
-class ViewHoldersManagerImpl: ViewHolderManager{
+class ViewHoldersManagerImpl: ViewHoldersManager{
     private val holdersMap = emptyMap<Int, ViewHolderVisitor>().toMutableMap()
 
     override fun registerViewHolder(itemType: Int, viewHolder: ViewHolderVisitor) {
@@ -69,8 +115,26 @@ class ViewHoldersManagerImpl: ViewHolderManager{
     override fun getViewHolder(itemType: Int) = holdersMap[itemType] ?: throw TypeCastException("Unknown recycler item type!")
 }
 
-class CustomRecyclerAdapter(private val names: List <RelativeLayout>){
+class BaseListAdapter(private val clickListener: AdapterClickListenerById,
+                      private val viewHoldersManager: ViewHoldersManager
+): ListAdapter<HasStringId, BaseListAdapter.DataViewHolder>(BaseDiffCallback()){
+    inner class DataViewHolder(
+        private val binding: ViewDataBinding,
+        private val holder: ViewHolderVisitor
+    ) : RecyclerView.ViewHolder(binding.root){
+        fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
+            holder.bind(binding, item, clickListener)
+    }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
+        LayoutInflater.from(parent.context).run {
+            val holder = viewHoldersManager.getViewHolder(viewType)
+            DataViewHolder(DataBindingUtil.inflate(this, holder.layout, parent, false), holder)
+        }
+
+    override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(getItem(position), clickListener)
+
+    override fun getItemViewType(position: Int): Int = viewHoldersManager.getItemType(getItem(position))
 
 }
 class InterfaceActivity: Activity() {
