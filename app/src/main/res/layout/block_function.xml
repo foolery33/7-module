@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <RelativeLayout
+        android:id="@+id/BlockFunction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="#ED9090">
+
+        <RelativeLayout
+            android:id="@+id/FunctionStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_function"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="function"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/name_function"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/text_function"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Название"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/name_function"
+                android:fontFamily="@font/ubuntu"
+                android:text="("
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/len_function"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/name_function"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Переменные"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/len_function"
+                android:fontFamily="@font/ubuntu"
+                android:text=")"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:id="@+id/BlockReturn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/FunctionStart"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="#ED9090">
+
+            <TextView
+                android:id="@+id/name_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="return"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+            <EditText
+                android:id="@+id/val_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/name_return"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Возвращаемое значение"
+                android:textColor="#383636"
+                android:textSize="25sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

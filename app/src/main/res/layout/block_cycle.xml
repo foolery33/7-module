@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/BlockCycle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rectangle"
+    android:backgroundTint="#A7D7E1">
+
+    <TextView
+        android:id="@+id/text_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/ubuntu"
+        android:text="cycle"
+        android:textColor="#383636"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/name1_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Значение"
+        android:textSize="25sp"
+        android:layout_toRightOf="@+id/text_cycle"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:textColor="#383636"
+        android:fontFamily="@font/ubuntu"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/white"
+        />
+
+    <Spinner
+        android:id="@+id/operator_choice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/logic_operators"
+        android:background="@drawable/frame_for_logic"
+        android:layout_toRightOf="@id/name1_cycle"
+        android:layout_centerVertical="true"
+        />
+
+    <EditText
+        android:id="@+id/name2_cycle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Значение"
+        android:textSize="25sp"
+        android:layout_toRightOf="@+id/operator_choice"
+        android:layout_marginLeft="10dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:textColor="#383636"
+        android:fontFamily="@font/ubuntu"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="@color/white"
+        />
+
+
+</RelativeLayout>

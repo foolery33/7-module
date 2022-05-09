@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/BlockIf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="#96B6E5">
+
+        <TextView
+            android:id="@+id/text_if"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:text="if"
+            android:textColor="#383636"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/name1_if"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Значение"
+            android:textSize="25sp"
+            android:layout_toRightOf="@+id/text_if"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#383636"
+            android:fontFamily="@font/ubuntu"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"
+            />
+
+        <Spinner
+            android:id="@+id/operator_choice_if"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/logic_operators"
+            android:background="@drawable/frame_for_logic"
+            android:layout_toRightOf="@id/name1_if"
+            android:layout_centerVertical="true"
+            />
+
+        <EditText
+            android:id="@+id/name2_if"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Значение"
+            android:textSize="25sp"
+            android:layout_toRightOf="@+id/operator_choice_if"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#383636"
+            android:fontFamily="@font/ubuntu"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/action_for_if"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BlockIf"></RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/BlockElse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BlockIf"
+        android:background="#96B6E5">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#383636"
+            android:textSize="25sp"
+            android:text="else"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/ubuntu" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/action_for_else"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/BlockElse"
+        android:layout_height="wrap_content"></RelativeLayout>
+
+</RelativeLayout>
