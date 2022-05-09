@@ -8,6 +8,7 @@ class InputBlock(name: String, value: String): MainActivity() {
     init {
         processData(name, value)
     }
+
     fun processData(name: String, value: String) {
         var names = StringWithCommas(name).splittedElements
         var values = StringWithCommas(value).splittedElements
