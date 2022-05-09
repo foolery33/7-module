@@ -43,7 +43,6 @@ class Expression(expression: String): MainActivity() {
                 value = value.replace("]", "")
                 if(isCorrectExpression(value)) {
                     newExpression = replaceElement(f.value, newExpression, "s__n")
-                    //newExpression = newExpression.replace(f.value, "s__n")
                 }
                 else {
                     return newExpression
@@ -65,7 +64,6 @@ class Expression(expression: String): MainActivity() {
                 value = value.replace(")", "")
                 if (isCorrectExpression(value)) {
                     newExpression = replaceElement(f.value, newExpression, "s__n")
-                    //newExpression = newExpression.replace(f.value, "s__n")
                 }
                 else {
                     return newExpression
@@ -439,15 +437,13 @@ class Expression(expression: String): MainActivity() {
                     )
                 }
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             msgError = "error"
         }
 
         return if (msgError.isEmpty()) {
             result.pop()
-        }
-        else {
+        } else {
             msgError
         }
     }

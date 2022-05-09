@@ -23,7 +23,7 @@ class FunctionBlock(name: String, arguments: String): MainActivity() {
                 this.listOfArguments = StringWithCommas(arguments).splittedElements
                 if (this.listOfArguments.size != functions[this.name]!!.size) {
                     this.success = false
-                    this.errors.add("Number of provided arguments doesn't match to number of function ${this.name} arguments")
+                    this.errors.add("Number of provided arguments doesn't equal to number of function ${this.name} arguments")
                 }
                 else {
                     makeLocalVariables()

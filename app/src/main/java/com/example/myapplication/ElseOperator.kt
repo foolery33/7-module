@@ -5,18 +5,12 @@ import com.example.myapplication.MainActivity.Companion.processCommands
 
 class ElseOperator(beforeOperator: String, operator: String, afterOperator: String, numberOfElseCommands: String) {
 
-    var operator = ""
-    var beforeOperator = ""
-    var afterOperator = ""
-    var result = false
     var success = true
-    var numberOfElseCommands = -1
     var expressionBeforeOperator = Expression(beforeOperator)
     var expressionAfterOperator = Expression(afterOperator)
     var errors = mutableListOf<String>()
 
     init {
-        this.numberOfElseCommands = numberOfElseCommands.toInt()
         if(expressionBeforeOperator.errors.size != 0) {
             for (i in expressionBeforeOperator.errors.indices) {
                 this.errors.add(expressionBeforeOperator.errors[i])
@@ -28,20 +22,16 @@ class ElseOperator(beforeOperator: String, operator: String, afterOperator: Stri
             }
         }
         else {
-            this.beforeOperator = beforeOperator
-            this.operator = operator
-            this.afterOperator = afterOperator
-
-            this.result = isFalseComparison(expressionBeforeOperator.valueOfExpression.toInt(), expressionAfterOperator.valueOfExpression.toInt())
+            val result = isFalseComparison(expressionBeforeOperator.valueOfExpression.toInt(), operator, expressionAfterOperator.valueOfExpression.toInt())
             if(result && this.success) {
-                processCommands(elseConditions[this.numberOfElseCommands])
+                processCommands(elseConditions[numberOfElseCommands.toInt()])
             }
         }
     }
 
 
-    fun isFalseComparison(first: Int, second: Int): Boolean {
-        when(this.operator) {
+    fun isFalseComparison(first: Int, operator: String, second: Int): Boolean {
+        when(operator) {
             ">" -> return (first <= second)
             "<" -> return (first >= second)
             "==" -> return (first != second)
@@ -53,4 +43,5 @@ class ElseOperator(beforeOperator: String, operator: String, afterOperator: Stri
         this.success = false
         return false
     }
+
 }
