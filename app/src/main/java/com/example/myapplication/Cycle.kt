@@ -2,17 +2,12 @@ package com.example.myapplication
 
 class Cycle(beforeOperator: String, operator: String, afterOperator: String, numberOfCycleCommands: String): MainActivity() {
 
-    var beforeOperator = ""
-    var operator = ""
-    var afterOperator = ""
-    var numberOfCycleCommands = -1
     var success = true
     var errors = mutableListOf<String>()
     var beforeOperatorExpression = Expression(beforeOperator)
     var afterOperatorExpression = Expression(afterOperator)
 
     init {
-        this.numberOfCycleCommands = numberOfCycleCommands.toInt()
 
         if(!beforeOperatorExpression.success) {
             this.success = false
@@ -26,17 +21,14 @@ class Cycle(beforeOperator: String, operator: String, afterOperator: String, num
                 this.errors.add(i)
             }
         }
-        else {
-            this.beforeOperator = beforeOperator
-            this.operator = operator
-            this.afterOperator = afterOperator
 
+        else {
             while (true) {
-                var currentBeforeOperatorExpression = Expression(beforeOperator)
-                var currentAfterOperatorExpression = Expression(afterOperator)
+                val currentBeforeOperatorExpression = Expression(beforeOperator)
+                val currentAfterOperatorExpression = Expression(afterOperator)
                 if(currentBeforeOperatorExpression.success && currentAfterOperatorExpression.success) {
-                    if (isTrueComparison(currentBeforeOperatorExpression.valueOfExpression.toInt(), this.operator, currentAfterOperatorExpression.valueOfExpression.toInt())) {
-                        processCommands(cycleCommands[this.numberOfCycleCommands])
+                    if (isTrueComparison(currentBeforeOperatorExpression.valueOfExpression.toInt(), operator, currentAfterOperatorExpression.valueOfExpression.toInt())) {
+                        processCommands(cycleCommands[numberOfCycleCommands.toInt()])
                     }
                     else {
                         break

@@ -2,18 +2,12 @@ package com.example.myapplication
 
 class IfOperator(beforeOperator: String, operator: String, afterOperator: String, numberOfIfCommands: String): MainActivity() {
 
-    var operator = ""
-    var beforeOperator = ""
-    var afterOperator = ""
-    var result = false
     var success = true
-    var numberOfIfCommands = -1
     var expressionBeforeOperator = Expression(beforeOperator)
     var expressionAfterOperator = Expression(afterOperator)
     var errors = mutableListOf<String>()
 
     init {
-        this.numberOfIfCommands = numberOfIfCommands.toInt()
         if(expressionBeforeOperator.errors.size != 0) {
             for (i in expressionBeforeOperator.errors.indices) {
                 this.errors.add(expressionBeforeOperator.errors[i])
@@ -25,20 +19,17 @@ class IfOperator(beforeOperator: String, operator: String, afterOperator: String
             }
         }
         else {
-            this.beforeOperator = beforeOperator
-            this.operator = operator
-            this.afterOperator = afterOperator
 
-            this.result = isTrueComparison(expressionBeforeOperator.valueOfExpression.toInt(), expressionAfterOperator.valueOfExpression.toInt())
+            val result = isTrueComparison(expressionBeforeOperator.valueOfExpression.toInt(), operator, expressionAfterOperator.valueOfExpression.toInt())
             if(result && this.success) {
-                processCommands(ifConditions[this.numberOfIfCommands])
+                processCommands(ifConditions[numberOfIfCommands.toInt()])
             }
         }
     }
 
 
-    fun isTrueComparison(first: Int, second: Int): Boolean {
-        when(this.operator) {
+    fun isTrueComparison(first: Int, operator: String, second: Int): Boolean {
+        when(operator) {
             ">" -> return (first > second)
             "<" -> return (first < second)
             "==" -> return (first == second)

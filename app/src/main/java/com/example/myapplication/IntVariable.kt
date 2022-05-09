@@ -1,23 +1,19 @@
 package com.example.myapplication
 
-class IntVariable(): MainActivity() {
+class IntVariable(name: String): MainActivity() {
 
-    var name: String = ""
-    var value: Int = 0
     var success = true
     var errors = mutableListOf<String>()
 
-    constructor(string: String) : this() {
-        if (isCorrectVariableName(string)) {
-            this.name = string
-            this.value = 0
-            addToMap(string, 0)
+    init {
+        if (isCorrectVariableName(name)) {
+            addToMap(name, 0)
         }
-        else if(isSequenceOfVariables(string)) {
-            processSequenceOfVariables(string)
+        else if(isSequenceOfVariables(name)) {
+            processSequenceOfVariables(name)
         }
         else {
-            this.errors.add("Cannot process string $string")
+            this.errors.add("Cannot process string $name")
             this.success = false
         }
     }

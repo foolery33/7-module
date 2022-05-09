@@ -114,7 +114,7 @@ open class MainActivity : AppCompatActivity() {
                         }
                     }
                     "function" -> {
-                        val a = FunctionBlock(splitted[1], splitted[2])
+                        val a = FunctionDeclarator(splitted[1], splitted[2], splitted[3].toInt())
                         if(!a.success) {
                             for (j in a.errors) {
                                 println(j)
@@ -151,10 +151,9 @@ open class MainActivity : AppCompatActivity() {
         commands.add("int i")
         commands.add("cycle i < 100 0")
         cycleCommands.add(mutableListOf("assignment recurs[i] 0", "assignment i i+1"))
-        commands.add("input n 45")
-        functions["chislo"] = mutableListOf("n", "recurs")
+        commands.add("input n 19")
+        commands.add("function chislo n,recurs 0")
         functionCommands.add(mutableListOf("if n == 1 0", "if n == 2 1", "if recurs[n-2] != 0 2", "if recurs[n-2] != 0 3", "if recurs[n-3] != 0 4", "if recurs[n-2] == 0 5"))
-        functionNumberOfCommands["chislo"] = 0
         ifConditions.add(mutableListOf("assignment recurs[n-1] 0", "return 0"))
         ifConditions.add(mutableListOf("assignment recurs[n-1] 1", "return 1"))
         ifConditions.add(mutableListOf("if recurs[n-3] == 0 6"))

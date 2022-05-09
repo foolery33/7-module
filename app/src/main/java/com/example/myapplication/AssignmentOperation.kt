@@ -2,8 +2,6 @@ package com.example.myapplication
 
 class AssignmentOperation(nameOfVariable: String, expression: String): MainActivity() {
 
-    var nameOfVariable: String = ""
-    var expression: String = ""
     var success = true
     var errors = mutableListOf<String>()
 
@@ -18,12 +16,10 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
         }
         else {
             if(expressionAfterOperator.correctExpression != null) {
-                this.expression = expressionAfterOperator.correctExpression as String
 
                 // Переменная - не элемент массива
                 if(intVariables.containsKey(nameOfVariable)) {
-                    this.nameOfVariable = nameOfVariable
-                    addToMap(this.nameOfVariable, expressionAfterOperator.valueOfExpression.toInt())
+                    addToMap(nameOfVariable, expressionAfterOperator.valueOfExpression.toInt())
                 }
                 // Переменная - элемент массива
                 else if(isArrayVariable(nameOfVariable)) {

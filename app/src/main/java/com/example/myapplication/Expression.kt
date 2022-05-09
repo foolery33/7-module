@@ -439,15 +439,13 @@ class Expression(expression: String): MainActivity() {
                     )
                 }
             }
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             msgError = "error"
         }
 
         return if (msgError.isEmpty()) {
             result.pop()
-        }
-        else {
+        } else {
             msgError
         }
     }

@@ -2,16 +2,13 @@ package com.example.myapplication
 
 class InputBlock(name: String, value: String): MainActivity() {
 
-    var name = ""
-    var value = ""
     var success = true
     var errors = mutableListOf<String>()
 
     init {
-        this.name = name
-        this.value = value
-        processData(this.name, this.value)
+        processData(name, value)
     }
+
     fun processData(name: String, value: String) {
         var names = StringWithCommas(name).splittedElements
         var values = StringWithCommas(value).splittedElements
