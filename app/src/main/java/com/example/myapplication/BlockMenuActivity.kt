@@ -186,7 +186,7 @@ class BlockMenuActivity: Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_interface)
+        setContentView(R.layout.activity_blocksmenu)
 
         val BackButton: ImageButton = findViewById(R.id.choose)
         val HelpButton: ImageButton = findViewById(R.id.help_blocks)
