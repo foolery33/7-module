@@ -11,6 +11,7 @@ import android.widget.RelativeLayout
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
@@ -19,19 +20,22 @@ import com.google.android.material.navigation.NavigationView
 import java.util.concurrent.PriorityBlockingQueue
 import kotlin.contracts.InvocationKind
 import androidx.recyclerview.widget.ListAdapter
+import com.example.myapplication.databinding.ActivityMainBinding
 
 class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         //binding.button
 
         val button: Button = findViewById(R.id.start_button)
 
-        button.setOnClickListener{
+        button.setOnClickListener {
             val intent = Intent(this@StartActivity, MainActivity::class.java)
             startActivity(intent)
         }
     }
+}

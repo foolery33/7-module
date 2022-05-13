@@ -1,16 +1,47 @@
 package com.example.myapplication
 
-import android.R.attr.data
-import android.util.Log
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import java.util.*
 
-interface HasStringId{
+
+public fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) : Int {
+    val dragFlags: Int = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+    val swipeFlags: Int = ItemTouchHelper.START or ItemTouchHelper.END
+    return makeMovementFlags(dragFlags, swipeFlags)
+}
+
+public fun isLongPressDragEnabled() : Boolean {
+    return true
+}
+
+public fun isItemViewSwipeEnabled() : Boolean {
+    return true
+}
+
+public interface ItemTouchHelperAdapter{
+    fun onItemMove(fromPosition: Int, toPosition: Int) {}
+    fun onItemDismiss(position: Int) {}
+}
+
+interface HasStringId {
     val id: String
+    override fun equals(other: Any?): Boolean
+}
+
+class AdapterClickListenerById(val clickListener: (id: String) -> Unit) {
+    fun onClick(id: String) = clickListener(id)
 }
 
 class BaseDiffCallback: DiffUtil.ItemCallback<HasStringId>(){
@@ -50,35 +81,129 @@ object DiModule{
 }
 
 class AssigmentViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_assigment
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class FunctionViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_function
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class CycleViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_cycle
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class IfViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_if_else
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class OutputViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_output
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class InputViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_input
 
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 class InitArrayViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_init_array
+
+    override fun acceptBinding(item: Any): Boolean {
+
+    }
+
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 
 }
 
 class InitIntViewHolder : ViewHolderVisitor {
+    override val layout: Int = R.layout.block_init_int
+    override fun acceptBinding(item: Any): Boolean {}
 
+    override fun bind(
+        binding: ViewDataBinding,
+        item: Any,
+        clickListener: AdapterClickListenerById
+    ) {
+
+    }
 }
 
 interface ViewHolderVisitor{
@@ -104,8 +229,8 @@ class ViewHoldersManagerImpl: ViewHoldersManager{
     override fun getViewHolder(itemType: Int) = holdersMap[itemType] ?: throw TypeCastException("Unknown recycler item type!")
 }
 
-class BaseListAdapter(private val clickListener: AdapterClickListenerById,
-                      private val viewHoldersManager: ViewHoldersManager
+abstract class BaseListAdapter(private val clickListener: AdapterClickListenerById,
+                               private val viewHoldersManager: ViewHoldersManager
 ): ListAdapter<HasStringId, BaseListAdapter.DataViewHolder>(BaseDiffCallback()){
     inner class DataViewHolder(
         private val binding: ViewDataBinding,
@@ -113,6 +238,13 @@ class BaseListAdapter(private val clickListener: AdapterClickListenerById,
     ) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: HasStringId, clickListener: AdapterClickListenerById) =
             holder.bind(binding, item, clickListener)
+    }
+
+    val mItems = mutableListOf<RelativeLayout>()
+    private var mAdapter: ItemTouchHelperAdapter? = null
+
+    public fun SimpleItemTouchHelperCallback(adapter: ItemTouchHelperAdapter){
+        mAdapter = adapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder =
@@ -123,17 +255,83 @@ class BaseListAdapter(private val clickListener: AdapterClickListenerById,
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) = holder.bind(getItem(position), clickListener)
 
+    public fun onItemDismiss(position: Int) {
+        mItems.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    public fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition..toPosition)
+                Collections.swap(mItems, i, i + 1)
+        }
+        else {
+            for (i in fromPosition downTo toPosition)
+                Collections.swap(mItems, i, i - 1)
+        }
+
+        notifyItemMoved(fromPosition, toPosition)
+        return true
+    }
+
+    override fun getItemCount(): Int = mItems.size
+
+    open fun onMove(
+        recyclerView: RecyclerView?,
+        viewHolder: RecyclerView.ViewHolder,
+        target: RecyclerView.ViewHolder
+    ): Boolean {
+        mAdapter?.onItemMove(
+            viewHolder.adapterPosition,
+            target.adapterPosition
+        )
+        return true
+    }
+
+    open fun onSwiped(
+        viewHolder: RecyclerView.ViewHolder,
+        direction: Int
+    ) {
+        mAdapter?.onItemDismiss(viewHolder.adapterPosition)
+    }
+
     override fun getItemViewType(position: Int): Int = viewHoldersManager.getItemType(getItem(position))
 
+}
+
+class SimpleItemTouchHelperCallback(private val mAdapter: ItemTouchHelperAdapter) :
+    ItemTouchHelper.Callback() {
+    override fun isLongPressDragEnabled(): Boolean {
+        return true
+    }
+
+    override fun isItemViewSwipeEnabled(): Boolean {
+        return true
+    }
+
+    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: ViewHolder): Int {
+        val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
+        val swipeFlags = ItemTouchHelper.START or ItemTouchHelper.END
+        return makeMovementFlags(dragFlags, swipeFlags)
+    }
+
+    override fun onMove(
+        recyclerView: RecyclerView, viewHolder: ViewHolder,
+        target: ViewHolder
+    ): Boolean {
+        mAdapter.onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+        return true
+    }
+
+    override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+        mAdapter.onItemDismiss(viewHolder.adapterPosition)
+    }
 }
 
 open class MainActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_CHOICE_BLOCK = 0
-    }
-
-    companion object {
         @JvmField
         var variables = mutableMapOf<String, Int>()
         var arrays = mutableMapOf<String, Array<Int>>()
@@ -181,8 +379,12 @@ open class MainActivity : AppCompatActivity() {
         MenuButton.setOnClickListener{
             val intent = Intent(this@MainActivity, BlockMenuActivity::class.java)
             val choice_block = 0
-            startActivityForResult(intent, InterfaceActivity.REQUEST_CHOICE_BLOCK)
+            startActivityForResult(intent, MainActivity.REQUEST_CHOICE_BLOCK)
         }
+
+        val callback: ItemTouchHelper.Callback = SimpleItemTouchHelperCallback(adapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(recyclerView)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -190,11 +392,9 @@ open class MainActivity : AppCompatActivity() {
 
         if (requestCode == Activity.RESULT_OK){
             when (requestCode){
-                InterfaceActivity.REQUEST_CHOICE_BLOCK -> {
+                MainActivity.REQUEST_CHOICE_BLOCK -> {
                     val blockname = data?.getStringExtra("user") //выбранный блок
-
                 }
-
             }
         }
     }

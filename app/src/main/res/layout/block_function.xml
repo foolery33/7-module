@@ -27,7 +27,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:text="function"
                 android:textColor="#383636"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/name_function"
@@ -42,7 +42,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:hint="Название"
                 android:textColor="#383636"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,7 +53,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:text="("
                 android:textColor="#383636"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/len_function"
@@ -67,61 +67,85 @@
                 android:fontFamily="@font/ubuntu"
                 android:hint="Переменные"
                 android:textColor="#383636"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/bracket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_toRightOf="@+id/len_function"
                 android:fontFamily="@font/ubuntu"
                 android:text=")"
                 android:textColor="#383636"
-                android:textSize="25sp" />
-        </RelativeLayout>
+                android:textSize="20sp" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/add_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/bracket"
+                android:src="@drawable/add"
+                app:tint="#383636" />
+        </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/BlockReturn"
+            android:id="@+id/action_for_fun"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/FunctionStart"
+            android:layout_below="@+id/FunctionStart"></RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="invisible"
+        android:id="@+id/BlockReturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BlockFunction"
+        android:background="@drawable/rectangle"
+        android:backgroundTint="#ED9090">
+
+        <TextView
+            android:id="@+id/name_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:text="return"
+            android:textColor="#383636"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/val_return"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/name_return"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#ED9090">
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/ubuntu"
+            android:hint="Возвращаемое значение"
+            android:textColor="#383636"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/name_return"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/ubuntu"
-                android:text="return"
-                android:textColor="#383636"
-                android:textSize="25sp" />
-
-            <EditText
-                android:id="@+id/val_return"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_toRightOf="@+id/name_return"
-                android:background="@drawable/rectangle"
-                android:backgroundTint="@color/white"
-                android:fontFamily="@font/ubuntu"
-                android:hint="Возвращаемое значение"
-                android:textColor="#383636"
-                android:textSize="25sp" />
-
-        </RelativeLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/val_return"
+            android:src="@drawable/delete"
+            android:layout_marginLeft="5dp"
+            app:tint="#383636" />
 
     </RelativeLayout>
 
