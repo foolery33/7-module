@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import com.example.namespace.R
 
 open class HelpActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {

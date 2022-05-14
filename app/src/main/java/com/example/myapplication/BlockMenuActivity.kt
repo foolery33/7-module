@@ -13,7 +13,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.R
+import com.example.namespace.R
+
 import com.google.android.material.snackbar.Snackbar
 import java.sql.ResultSet
 import java.time.temporal.ValueRange

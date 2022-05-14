@@ -17,8 +17,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.namespace.R
 import java.util.*
-import com.example.myapplication.R
 import kotlin.collections.ArrayList
 
 
