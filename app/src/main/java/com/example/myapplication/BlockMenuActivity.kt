@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -15,9 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namespace.R
 
-import com.google.android.material.snackbar.Snackbar
-import java.sql.ResultSet
-import java.time.temporal.ValueRange
 
 class Data(){
 
@@ -71,17 +67,30 @@ class Data(){
 class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var choice: String, var click: Boolean):
     RecyclerView.Adapter<CustomRecyclerAdapterMenu.MenuViewHolder>(){
 
-    public fun customRecyclerAdapterMenu(records: MutableList<Data>) {
+    public fun CustomRecyclerAdapterMenu(records: MutableList<Data>) {
         allRecords = records
     }
 
+    public class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        public val item: LinearLayout
+        public val valueText: TextView
+        public val iconTree: AppCompatImageView
+        public val vv: View
 
-    class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        init {
+            vv = itemView
+            item = vv.findViewById(R.id.id_item)
+            valueText = vv.findViewById(R.id.value_name)
+            iconTree = vv.findViewById(R.id.icon_tree)
+        }
+    }
+    /*class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+
         val item: LinearLayout = itemView.findViewById(R.id.block_text)
         val valueText: TextView = itemView.findViewById(R.id.value_name)
         val iconTree: AppCompatImageView = itemView.findViewById(R.id.icon_tree)
         val vv: View = itemView
-    }
+    }*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
         val itemView = LayoutInflater.from(parent.context)
