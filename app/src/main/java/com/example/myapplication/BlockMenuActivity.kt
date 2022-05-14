@@ -68,16 +68,13 @@ class Data(){
     }
 }
 
-class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var choice: String):
+class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var choice: String, var click: Boolean):
     RecyclerView.Adapter<CustomRecyclerAdapterMenu.MenuViewHolder>(){
 
     public fun customRecyclerAdapterMenu(records: MutableList<Data>) {
         allRecords = records
     }
 
-    public fun getItem(): String{
-        return choice
-    }
 
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val item: LinearLayout = itemView.findViewById(R.id.block_text)
@@ -123,7 +120,6 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
         holder.valueText.setOnClickListener(View.OnClickListener() {
             fun onClick(view: View){
                 val dataItem: Data = allRecords[position]
-                val answerIntent = Intent()
 
                 if (dataItem.isItemParent()){
                     dataItem.setChildVisibility(!dataItem.isChildVisibility())
@@ -148,6 +144,8 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
                         choice = "function"
                     else if (valueId == 8)
                         choice = "assignment"
+
+                    click = true
                 }
             }
         })
@@ -272,23 +270,27 @@ open class BlockMenuActivity: Activity() {
         }
 
         fillList()
-        val adapter: CustomRecyclerAdapterMenu = CustomRecyclerAdapterMenu(records, "")
+        val adapter: CustomRecyclerAdapterMenu = CustomRecyclerAdapterMenu(records, "", false)
         val itemAnimator: RecyclerView.ItemAnimator = DefaultItemAnimator()
         val layoutManager: LinearLayoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.itemAnimator = itemAnimator
 
+
+
         BackButton.setOnClickListener{
             setResult(RESULT_CANCELED)
             finish()
         }
 
-        val answerIntent = Intent()
-        val choice: String = adapter.getItem()
-        answerIntent.putExtra("user", choice)
-        setResult(RESULT_OK, answerIntent)
-        finish()
+        if (adapter.click){
+            val answerIntent = Intent()
+            val choice = adapter.choice
+            answerIntent.putExtra("user", choice)
+            setResult(Activity.RESULT_OK, answerIntent)
+            finish()
+        }
     }
 }
 
