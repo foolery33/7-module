@@ -14,7 +14,7 @@ class HelpActivity : Activity() {
         val ButtonReturn: ImageButton = findViewById(R.id.return_button)
 
         ButtonReturn.setOnClickListener{
-            val intent = Intent(this@HelpActivity, InterfaceActivity::class.java)
+            val intent = Intent(this@HelpActivity, MainActivity::class.java)
             startActivity(intent)
         }
     }
