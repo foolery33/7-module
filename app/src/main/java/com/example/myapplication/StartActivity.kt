@@ -21,8 +21,9 @@ import java.util.concurrent.PriorityBlockingQueue
 import kotlin.contracts.InvocationKind
 import androidx.recyclerview.widget.ListAdapter
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.R
 
-class StartActivity : AppCompatActivity() {
+open class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
