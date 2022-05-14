@@ -116,29 +116,25 @@ class Expression(expression: String): MainActivity() {
     fun replaceFunctions(text: String): String {
 
         var editedText = text
-        val functionsInExpression = Regex("([a-zA-Z]\\w*\\(.+\\))").findAll(text)
-        functionsInExpression.forEach { f ->
-            val currentFunction: String = f.value
-            val functionsExpression = getFunctionExpressions(editedText)
-            for (i in functionsExpression) {
-                if(Regex("[a-zA-Z]\\w*\\(.+\\)").matchEntire(i) != null) {
-                    if (functions.containsKey(getElementName(i, '('))) {
-                        var func = FunctionBlock(getElementName(i, '('), getInBracketsExpression(i, '(', ')'))
-                        if (func.success) {
-                            editedText = replaceElement(i, editedText, func.returnValue.toString())
-                        }
-                        else {
-                            this.success = false
-                            for (i in func.errors) {
-                                this.errors.add(i)
-                            }
-                        }
-                        // Замена функции её числовым значением
+        val functionsInExpression = getFunctionExpressions(editedText)
+        for (i in functionsInExpression) {
+            if(Regex("[a-zA-Z]\\w*\\(.+\\)").matchEntire(i) != null) {
+                if (functions.containsKey(getElementName(i, '('))) {
+                    var func = FunctionBlock(getElementName(i, '('), getInBracketsExpression(i, '(', ')'))
+                    if (func.success) {
+                        editedText = replaceElement(i, editedText, func.returnValue.toString())
                     }
                     else {
-                        this.errors.add("Function $i has not been declared")
                         this.success = false
+                        for (j in func.errors) {
+                            this.errors.add(j)
+                        }
                     }
+                    // Замена функции её числовым значением
+                }
+                else {
+                    this.errors.add("Function $i has not been declared")
+                    this.success = false
                 }
             }
         }
