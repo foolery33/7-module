@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namespace.R
 
 
-class Data(){
+/*class Data(){
 
     private var valueText: String = ""
     private var valueId: Int = 0
@@ -183,7 +183,7 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
     override fun getItemCount() = allRecords.size
 
 
-}
+}*/
 
 
 
@@ -197,7 +197,7 @@ open class BlockMenuActivity: Activity() {
 
         val BackButton: ImageButton = findViewById(R.id.return_block)
         val HelpButton: ImageButton = findViewById(R.id.help_blocks)
-        val records: MutableList<Data> = ArrayList<Data>()
+        /*val records: MutableList<Data> = ArrayList<Data>()
         var record: Data = Data()
         var parentId: Int = 0
         val recyclerView: RecyclerView = findViewById(R.id.recycle_list)
@@ -299,7 +299,9 @@ open class BlockMenuActivity: Activity() {
             answerIntent.putExtra("user", choice)
             setResult(Activity.RESULT_OK, answerIntent)
             finish()
-        }
+        }*/
+
+
     }
 }
 
