@@ -11,9 +11,9 @@ open class HelpActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_help)
 
-        val ButtonReturn: ImageButton = findViewById(R.id.return_button)
+        val buttonReturn: ImageButton = findViewById(R.id.return_button)
 
-        ButtonReturn.setOnClickListener{
+        buttonReturn.setOnClickListener{
             val intent = Intent(this@HelpActivity, MainActivity::class.java)
             startActivity(intent)
         }

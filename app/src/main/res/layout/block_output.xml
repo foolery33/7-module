@@ -9,11 +9,11 @@
     android:backgroundTint="#D69AD8">
 
     <TextView
-        android:id="@+id/text_output"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/ubuntu"
         android:text="output"
@@ -21,12 +21,12 @@
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/name_output"
+        android:id="@+id/edit_text_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Переменная"
         android:textSize="20sp"
-        android:layout_toRightOf="@+id/text_output"
+        android:layout_toEndOf="@+id/title"
         android:layout_marginLeft="10dp"
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
@@ -35,4 +35,6 @@
         android:background="@drawable/rectangle"
         android:backgroundTint="@color/white"
         />
+
+
 </RelativeLayout>

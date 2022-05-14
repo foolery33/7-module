@@ -20,15 +20,13 @@ import com.google.android.material.navigation.NavigationView
 import java.util.concurrent.PriorityBlockingQueue
 import kotlin.contracts.InvocationKind
 import androidx.recyclerview.widget.ListAdapter
-import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.R
 
 open class StartActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding: ActivityMainBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setContentView(R.layout.start_activity)
 
         //binding.button
 

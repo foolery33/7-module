@@ -70,7 +70,7 @@ class Data(){
 class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var choice: String):
     RecyclerView.Adapter<CustomRecyclerAdapterMenu.MenuViewHolder>(){
 
-    public fun CustomRecyclerAdapterMenu(records: MutableList<Data>) {
+    public fun customRecyclerAdapterMenu(records: MutableList<Data>) {
         allRecords = records
     }
 
@@ -81,7 +81,7 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
     class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val item: LinearLayout = itemView.findViewById(R.id.block_text)
         val valueText: TextView = itemView.findViewById(R.id.value_name)
-        val icon_tree: AppCompatImageView = itemView.findViewById(R.id.icon_tree)
+        val iconTree: AppCompatImageView = itemView.findViewById(R.id.icon_tree)
         val vv: View = itemView
     }
 
@@ -92,28 +92,28 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
     }
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        var record: Data = allRecords[position]
-        var value: String = record.getValueText()
+        val record: Data = allRecords[position]
+        val value: String = record.getValueText()
         var id: Int = record.getValueId()
-        var parentId: Int = record.getParentId()
+        val parentId: Int = record.getParentId()
 
         if (parentId >= 0){
             setVisibility(holder.item, allRecords[parentId].isChildVisibility(), parentId)
         }
         else{
-            setVisibility(holder.icon_tree, true, parentId)
+            setVisibility(holder.iconTree, true, parentId)
         }
 
         if (record.isItemParent()){
-            holder.icon_tree.visibility = View.VISIBLE
+            holder.iconTree.visibility = View.VISIBLE
 
             if (record.isChildVisibility())
-                holder.icon_tree.setBackgroundResource(R.drawable.icon_show)
+                holder.iconTree.setBackgroundResource(R.drawable.icon_show)
             else
-                holder.icon_tree.setBackgroundResource(R.drawable.icon_hide)
+                holder.iconTree.setBackgroundResource(R.drawable.icon_hide)
         }
         else
-            holder.icon_tree.visibility = View.GONE
+            holder.iconTree.visibility = View.GONE
 
         if (!TextUtils.isEmpty(value)){
             holder.valueText.text = value
@@ -121,7 +121,7 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
 
         holder.valueText.setOnClickListener(View.OnClickListener() {
             fun onClick(view: View){
-                var dataItem: Data = allRecords[position]
+                val dataItem: Data = allRecords[position]
                 val answerIntent = Intent()
 
                 if (dataItem.isItemParent()){
@@ -155,18 +155,16 @@ class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var 
     private fun setVisibility(curV: View, visible: Boolean, parentId: Int){
         val vPadding: LinearLayout = curV.findViewById(R.id.block_text)
 
-        var params: LinearLayout.LayoutParams
+        val params: LinearLayout.LayoutParams
 
         if (visible){
             params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
-            if (vPadding != null){
-                if (parentId >= 0){
-                    vPadding.setPadding(80, 0, 0, 0)
-                }
-                else{
-                    vPadding.setPadding(0,0,0,0)
-                }
+            if (parentId >= 0){
+                vPadding.setPadding(80, 0, 0, 0)
+            }
+            else{
+                vPadding.setPadding(0,0,0,0)
             }
         }
         else
@@ -191,11 +189,10 @@ open class BlockMenuActivity: Activity() {
 
         val BackButton: ImageButton = findViewById(R.id.choose)
         val HelpButton: ImageButton = findViewById(R.id.help_blocks)
-        var records: MutableList<Data> = ArrayList<Data>()
+        val records: MutableList<Data> = ArrayList<Data>()
         var record: Data = Data()
-        val adapter: CustomRecyclerAdapterMenu
         var parentId: Int = 0
-        var recyclerView: RecyclerView = findViewById(R.id.recycle_list)
+        val recyclerView: RecyclerView = findViewById(R.id.recycle_list)
 
         /*fun setImageView(valueId:Int){
             val imageView: ImageView = ImageView(this)
@@ -274,7 +271,7 @@ open class BlockMenuActivity: Activity() {
         }
 
         fillList()
-        adapter = CustomRecyclerAdapterMenu(records, "")
+        val adapter: CustomRecyclerAdapterMenu = CustomRecyclerAdapterMenu(records, "")
         val itemAnimator: RecyclerView.ItemAnimator = DefaultItemAnimator()
         val layoutManager: LinearLayoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -287,7 +284,7 @@ open class BlockMenuActivity: Activity() {
         }
 
         val answerIntent = Intent()
-        var choice: String = adapter.getItem()
+        val choice: String = adapter.getItem()
         answerIntent.putExtra("user", choice)
         setResult(RESULT_OK, answerIntent)
         finish()
