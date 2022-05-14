@@ -188,7 +188,7 @@ open class BlockMenuActivity: Activity() {
 
         setContentView(R.layout.activity_blocksmenu)
 
-        val BackButton: ImageButton = findViewById(R.id.choose)
+        val BackButton: ImageButton = findViewById(R.id.return_block)
         val HelpButton: ImageButton = findViewById(R.id.help_blocks)
         val records: MutableList<Data> = ArrayList<Data>()
         var record: Data = Data()

@@ -66,7 +66,7 @@ open class MainActivity : AppCompatActivity() {
         recyclerView.adapter = blockAdapter
 
         val HelpButton: ImageButton = findViewById(R.id.help)
-        val MenuButton: ImageButton = findViewById(R.id.choose)
+        val MenuButton: ImageButton = findViewById(R.id.menu)
         val RunButton: ImageButton = findViewById(R.id.run)
 
         HelpButton.setOnClickListener{
