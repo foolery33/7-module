@@ -4,6 +4,26 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android Studio Projects/app/src/main/res/layout/activity_main.xml" value="0.4018181818181818" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/frame_for_logic.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/icon.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/rectangle.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/round_ikon.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/drawable/round_rectangle.xml" value="0.1695" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/activity_blocksmenu.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/activity_help.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_assigment.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_cycle.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_function.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_if_else.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_init_array.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_init_int.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_input.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/block_output.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/content_scrolling.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/recyclerview_item.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/recycleview_item_formenu.xml" value="0.125" />
+        <entry key="..\:/Users/nikit/AndroidStudioProjects/7-module/app/src/main/res/layout/start_activity.xml" value="0.125" />
         <entry key="..\:/Users/radyg/Documents/GitHub/7-module/app/src/main/res/layout/activity_main.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/radyg/Documents/GitHub/7-module/app/src/main/res/layout/block_assigment.xml" value="0.2586050724637681" />
         <entry key="..\:/Users/radyg/Documents/GitHub/7-module/app/src/main/res/layout/block_cycle.xml" value="0.2586050724637681" />

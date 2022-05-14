@@ -6,7 +6,7 @@
         <item>>=</item>
         <item>></item>
         <item>&lt;=</item>
-        <item>&lt;</item>
+        <item><![CDATA[<]]></item>
     </string-array>
 
 

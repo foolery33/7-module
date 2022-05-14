@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.BlockInitIntBinding
+
+import com.example.namespace.R
 import java.lang.IllegalArgumentException
 
 class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBlocks>): RecyclerView.Adapter<BlockAdapter.BlockHolder>() {

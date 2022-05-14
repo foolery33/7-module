@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
         <activity
-            android:name=".StartActivity"
+            android:name="com.example.myapplication.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,9 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".BlockMenuActivity" />
-        <activity android:name=".HelpActivity" />
+        <activity android:name="com.example.myapplication.MainActivity" />
+        <activity android:name="com.example.myapplication.BlockMenuActivity" />
+        <activity android:name="com.example.myapplication.HelpActivity" />
     </application>
 
 </manifest>
