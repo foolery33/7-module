@@ -15,180 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.namespace.R
 
 
-/*class Data(){
-
-    private var valueText: String = ""
-    private var valueId: Int = 0
-    private var parentItem: Boolean = false
-    private var parentId: Int = -1
-    private var childVisibility: Boolean = false
-
-    fun isItemParent(): Boolean {
-        return parentItem
-    }
-
-    fun setItemParent(newItemParent: Boolean){
-        parentItem = newItemParent
-    }
-
-    fun isChildVisibility(): Boolean {
-        return childVisibility
-    }
-
-    fun setChildVisibility(newChildVisibility: Boolean){
-        childVisibility = newChildVisibility
-    }
-
-    fun getParentId(): Int {
-        return parentId
-    }
-
-    fun setParentId(newParentId: Int){
-        parentId = newParentId
-    }
-
-    fun getValueText(): String{
-        return valueText
-    }
-
-    fun setValueText(newValueText: String){
-        valueText = newValueText
-    }
-
-    fun getValueId(): Int{
-        return valueId
-    }
-
-    fun setValueId(newValueId: Int){
-        valueId = newValueId
-    }
-}
-
-class CustomRecyclerAdapterMenu(private var allRecords: MutableList <Data>, var choice: String, var click: Boolean):
-    RecyclerView.Adapter<CustomRecyclerAdapterMenu.MenuViewHolder>(){
-
-    public fun CustomRecyclerAdapterMenu(records: MutableList<Data>) {
-        allRecords = records
-    }
-
-    public class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        public val item: LinearLayout
-        public val valueText: TextView
-        public val iconTree: AppCompatImageView
-        public val vv: View
-
-        init {
-            vv = itemView
-            item = vv.findViewById(R.id.id_item)
-            valueText = vv.findViewById(R.id.value_name)
-            iconTree = vv.findViewById(R.id.icon_tree)
-        }
-    }
-    /*class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-        val item: LinearLayout = itemView.findViewById(R.id.block_text)
-        val valueText: TextView = itemView.findViewById(R.id.value_name)
-        val iconTree: AppCompatImageView = itemView.findViewById(R.id.icon_tree)
-        val vv: View = itemView
-    }*/
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recycleview_item_formenu,parent,false)
-        return MenuViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        val record: Data = allRecords[position]
-        val value: String = record.getValueText()
-        var id: Int = record.getValueId()
-        val parentId: Int = record.getParentId()
-
-        if (parentId >= 0){
-            setVisibility(holder.item, allRecords[parentId].isChildVisibility(), parentId)
-        }
-        else{
-            setVisibility(holder.iconTree, true, parentId)
-        }
-
-        if (record.isItemParent()){
-            holder.iconTree.visibility = View.VISIBLE
-
-            if (record.isChildVisibility())
-                holder.iconTree.setBackgroundResource(R.drawable.icon_show)
-            else
-                holder.iconTree.setBackgroundResource(R.drawable.icon_hide)
-        }
-        else
-            holder.iconTree.visibility = View.GONE
-
-        if (!TextUtils.isEmpty(value)){
-            holder.valueText.text = value
-        }
-
-        holder.valueText.setOnClickListener(View.OnClickListener() {
-            fun onClick(view: View){
-                val dataItem: Data = allRecords[position]
-
-                if (dataItem.isItemParent()){
-                    dataItem.setChildVisibility(!dataItem.isChildVisibility())
-                    notifyDataSetChanged()
-                }
-                else{
-                    val valueId = dataItem.getValueId()
-
-                    if (valueId == 1)
-                        choice = "int"
-                    else if (valueId == 2)
-                        choice = "array"
-                    else if (valueId == 3)
-                        choice = "input"
-                    else if (valueId == 4)
-                        choice = "output"
-                    else if (valueId == 5)
-                        choice = "if"
-                    else if (valueId == 6)
-                        choice = "cycle"
-                    else if (valueId == 7)
-                        choice = "function"
-                    else if (valueId == 8)
-                        choice = "assignment"
-
-                    click = true
-                }
-            }
-        })
-    }
-
-    private fun setVisibility(curV: View, visible: Boolean, parentId: Int){
-        val vPadding: LinearLayout = curV.findViewById(R.id.block_text)
-
-        val params: LinearLayout.LayoutParams
-
-        if (visible){
-            params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-
-            if (parentId >= 0){
-                vPadding.setPadding(80, 0, 0, 0)
-            }
-            else{
-                vPadding.setPadding(0,0,0,0)
-            }
-        }
-        else
-            params = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0)
-        curV.layoutParams = params
-    }
-
-    override fun getItemCount() = allRecords.size
-
-
-}*/
-
-
-
 open class BlockMenuActivity: Activity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -287,12 +114,6 @@ open class BlockMenuActivity: Activity() {
         recyclerView.itemAnimator = itemAnimator
 
 
-
-        BackButton.setOnClickListener{
-            setResult(RESULT_CANCELED)
-            finish()
-        }
-
         if (adapter.click){
             val answerIntent = Intent()
             val choice = adapter.choice
@@ -300,6 +121,49 @@ open class BlockMenuActivity: Activity() {
             setResult(Activity.RESULT_OK, answerIntent)
             finish()
         }*/
+
+        val listData: MutableList<ParentData> = ArrayList()
+
+        val parentData: Array<String> = arrayOf("Объявления", "Ввод/Вывод", "Циклы",
+            "Функция", "Логика", "Присваивание")
+        val childNotification: MutableList<ChildData> = mutableListOf(ChildData("Целочисленной переменной", "int"),
+            ChildData("Массива", "array"))
+        val childInOutput: MutableList<ChildData> = mutableListOf(ChildData("Ввод", "input"),
+            ChildData("Вывод", "output"))
+        /*val childWithoutParent: MutableList<ChildData> = mutableListOf(ChildData("Циклы"),
+            ChildData("Функция"), ChildData("Логика"), ChildData("Присваивание"))*/
+
+        val parentObjNotification = ParentData(parentTitle = parentData[0], subList = childNotification, iconVisibility = true)
+        val parentObjInOutput = ParentData(parentTitle = parentData[1], subList = childInOutput, iconVisibility = true)
+        val parentObjCycle = ParentData(parentTitle = parentData[2], nameBlock = "cycle")
+        val parentObjFunction = ParentData(parentTitle = parentData[3], nameBlock = "function")
+        val parentObjLogic = ParentData(parentTitle = parentData[4], nameBlock = "if")
+        val parentObjAssigment = ParentData(parentTitle = parentData[5], nameBlock = "assigment")
+
+        listData.add(parentObjNotification)
+        listData.add(parentObjInOutput)
+        listData.add(parentObjCycle)
+        listData.add(parentObjFunction)
+        listData.add(parentObjLogic)
+        listData.add(parentObjAssigment)
+
+        val exRecyclerView = findViewById<RecyclerView>(R.id.expandable_menu)
+        var choice: String = ""
+        exRecyclerView.layoutManager = LinearLayoutManager(this)
+        exRecyclerView.adapter = RecycleAdapter(this@BlockMenuActivity, listData, choice)
+
+
+        BackButton.setOnClickListener{
+            setResult(RESULT_CANCELED)
+            finish()
+        }
+
+        if (choice != ""){
+            val answerIntent = Intent()
+            answerIntent.putExtra("user", choice)
+            setResult(Activity.RESULT_OK, answerIntent)
+            finish()
+        }
 
 
     }
