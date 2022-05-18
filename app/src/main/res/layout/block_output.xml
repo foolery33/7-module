@@ -5,36 +5,47 @@
     android:id="@+id/BlockOutput"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/rectangle"
-    android:backgroundTint="#D69AD8">
+    >
 
-    <TextView
-        android:id="@+id/title"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/ubuntu"
-        android:text="output"
-        android:textColor="#383636"
-        android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/edit_text_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Переменная"
-        android:textSize="20sp"
-        android:layout_toEndOf="@+id/title"
-        android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:textColor="#383636"
-        android:fontFamily="@font/ubuntu"
+        android:layout_marginTop="5dp"
         android:background="@drawable/rectangle"
-        android:backgroundTint="@color/white"
-        />
+        android:backgroundTint="#D69AD8">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/ubuntu"
+            android:text="output"
+            android:textColor="#383636"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/edit_output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Переменная"
+            android:textSize="20sp"
+            android:layout_toEndOf="@+id/title"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#383636"
+            android:fontFamily="@font/ubuntu"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"
+            />
+
+    </RelativeLayout>
+
+
+
 
 
 </RelativeLayout>

@@ -7,7 +7,6 @@ data class ParentData(
     var type: Int = Constants.PARENT,
     var subList: MutableList<ChildData> = ArrayList(),
     var isExpanded: Boolean = false,
-    val iconVisibility: Boolean = false,
     val nameBlock: String = ""
 )
 

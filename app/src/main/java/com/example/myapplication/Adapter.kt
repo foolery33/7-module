@@ -3,15 +3,19 @@ package com.example.myapplication
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namespace.R
 
-class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, var choice: String) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, private var choice: String, private val onClickListener: ChoiceOnClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    fun getChoice() : String = choice
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == Constants.PARENT){
@@ -32,16 +36,8 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, v
             holder as GroupViewHolder
             holder.apply {
                 parentTV?.text = dataList.parentTitle
-                if (dataList.iconVisibility){
-                    downIV?.visibility = ImageView.VISIBLE
-                    downIV?.setOnClickListener{
-                        expandOrCollapseParentItem(dataList, position, downIV)
-                    }
-                }
-                else {
-                    parentTV?.setOnClickListener {
-                        choice = dataList.nameBlock
-                    }
+                parentV.setOnClickListener{
+                    expandOrCollapseParentItem(dataList, position, downIV)
                 }
             }
         }
@@ -51,8 +47,8 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, v
             holder.apply {
                 val singleService = dataList.subList.first()
                 childTV?.text = singleService.childTitle
-                childTV?.setOnClickListener {
-                    choice = dataList.nameBlock
+                childV.setOnClickListener {
+                    onClickListener.onClicked(singleService.nameBlock)
                 }
             }
         }
@@ -107,11 +103,13 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, v
 
     class GroupViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val parentTV = row.findViewById(R.id.parent_Title) as TextView?
-        val downIV = row.findViewById(R.id.down_iv) as ImageView?
+        val downIV = row.findViewById(R.id.down_iv) as ImageView
+        val parentV = row.findViewById(R.id.view_parent) as RelativeLayout
     }
 
     class ChildViewHolder(row: View) : RecyclerView.ViewHolder(row) {
         val childTV = row.findViewById(R.id.child_Title) as TextView?
+        val childV = row.findViewById(R.id.view_child) as RelativeLayout
     }
 
     override fun getItemViewType(position: Int): Int = list[position].type

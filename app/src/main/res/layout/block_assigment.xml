@@ -5,50 +5,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/BlockAssigment"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rectangle"
-    android:backgroundTint="#A9DD97">
+    android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/nameVar"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Переменная"
-        android:textSize="20sp"
-        android:layout_marginStart="10dp"
-        android:layout_centerVertical="true"
-        android:textColor="#383636"
-        android:fontFamily="@font/ubuntu"
+        android:layout_marginTop="5dp"
         android:background="@drawable/rectangle"
-        android:backgroundTint="@color/white"
-        />
+        android:backgroundTint="#A9DD97">
+
+        <EditText
+            android:id="@+id/nameVar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Переменная"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:textColor="#383636"
+            android:fontFamily="@font/ubuntu"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"
+            />
 
 
-    <TextView
-        android:id="@+id/assign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/nameVar"
-        android:fontFamily="@font/ubuntu"
-        android:text="="
-        android:textColor="#383636"
-        android:textSize="20sp" />
+        <TextView
+            android:id="@+id/assign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/nameVar"
+            android:fontFamily="@font/ubuntu"
+            android:text="="
+            android:textColor="#383636"
+            android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Значение"
-        android:textSize="25sp"
-        android:layout_toEndOf="@+id/assign"
-        android:layout_marginLeft="10dp"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:textColor="#383636"
-        android:fontFamily="@font/ubuntu"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="@color/white"/>
+        <EditText
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Значение"
+            android:textSize="20sp"
+            android:layout_toEndOf="@+id/assign"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="#383636"
+            android:fontFamily="@font/ubuntu"
+            android:background="@drawable/rectangle"
+            android:backgroundTint="@color/white"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

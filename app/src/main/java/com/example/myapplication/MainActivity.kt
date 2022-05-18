@@ -27,7 +27,6 @@ open class MainActivity : AppCompatActivity() {
     private var launcher: ActivityResultLauncher<Intent>? = null
 
     companion object {
-        const val REQUEST_CHOICE_BLOCK = 0
         @JvmField
         var variables = mutableMapOf<String, Int>()
         var arrays = mutableMapOf<String, Array<Int>>()
@@ -89,18 +88,43 @@ open class MainActivity : AppCompatActivity() {
             launcher?.launch(Intent(this@MainActivity, BlockMenuActivity::class.java))
         }
 
+        val simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                or ItemTouchHelper.START or ItemTouchHelper.END, ItemTouchHelper.RIGHT){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: ViewHolder,
+                target: ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.bindingAdapterPosition
+                val toPosition = target.bindingAdapterPosition
+                Collections.swap(programList, fromPosition, toPosition)
+
+                blockAdapter.notifyItemMoved(fromPosition, toPosition)
+                return false
+            }
+
+            override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
+                val position = viewHolder.bindingAdapterPosition
+                programList.remove(programList[position])
+                blockAdapter.notifyItemRemoved(position)
+            }
+        }
+
+        val itemTouchHelper = ItemTouchHelper(simpleCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+
     }
 
     fun addList(choice: String, programList: MutableList<DataBlocks>){
         programList.add(when (choice) {
-            in "int" -> DataBlocks.InitInt("")
-            in "array" -> DataBlocks.InitArray("", "")
-            in "input" -> DataBlocks.InputEl("")
-            in "output" -> DataBlocks.InputEl("")
-            in "if" -> DataBlocks.InputEl("")
-            in "cycle" -> DataBlocks.InputEl("")
-            in "function" -> DataBlocks.InputEl("")
-            else -> DataBlocks.InputEl("")
+            in "int" -> DataBlocks.InitInt()
+            in "array" -> DataBlocks.InitArray()
+            in "input" -> DataBlocks.InputEl()
+            in "output" -> DataBlocks.OutputEl()
+            in "if" -> DataBlocks.IfElse()
+            in "cycle" -> DataBlocks.Cycle()
+            in "function" -> DataBlocks.Function()
+            else -> DataBlocks.AssigmentEl()
         })
     }
 }

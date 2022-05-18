@@ -1,44 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/BlockElse"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
 
-
     <RelativeLayout
-        android:id="@+id/BlockInitInt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:background="@drawable/rectangle"
-        android:backgroundTint="#DCD6A4"
-        >
+        android:backgroundTint="#96B6E5"
+        android:layout_marginTop="5dp">
+
         <TextView
-            android:id="@+id/text_int"
+            android:id="@+id/text_else"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/ubuntu"
-            android:text="int"
+            android:text="else"
             android:textColor="#383636"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/init_int"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Переменная"
-            android:textSize="20sp"
-            android:layout_toEndOf="@+id/text_int"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:textColor="#383636"
-            android:fontFamily="@font/ubuntu"
-            android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white" />
     </RelativeLayout>
+
 </RelativeLayout>
