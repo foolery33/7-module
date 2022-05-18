@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,9 +93,27 @@ class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBl
         private const val TYPE_END = 11
     }
 
+
     class BlockHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         private fun bindInitInt(item: DataBlocks.InitInt){
-            val textInt = itemView.findViewById(R.id.init_int) as EditText?
+            val nameEdit = itemView.findViewById<EditText>(R.id.init_int)
+            /*nameEdit.setOnKeyListener(View.OnKeyListener{
+                override fun onKey(View?, Int, KeyEvent): Boolean{
+                    if(event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER){
+                        item.name = nameEdit.getText().toString()
+                        Log.d("Int", item.name)
+                        nameEdit.clearFocus()
+                        nameEdit.isCursorVisible = false
+
+                        return true
+                    }
+                return false
+            }
+            })*/
+
+            item.name = nameEdit.getText().toString()
+            Log.d("Int", item.name)
+
         }
         private fun bindInitArr(item: DataBlocks.InitArray){
             val nameArr = itemView.findViewById(R.id.name_array) as EditText?

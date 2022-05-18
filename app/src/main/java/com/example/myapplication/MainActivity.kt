@@ -121,7 +121,7 @@ open class MainActivity : AppCompatActivity() {
             in "array" -> DataBlocks.InitArray()
             in "input" -> DataBlocks.InputEl()
             in "output" -> DataBlocks.OutputEl()
-            in "if" -> DataBlocks.IfElse()
+            in "if" -> DataBlocks.If()
             in "cycle" -> DataBlocks.Cycle()
             in "function" -> DataBlocks.Function()
             else -> DataBlocks.AssigmentEl()
