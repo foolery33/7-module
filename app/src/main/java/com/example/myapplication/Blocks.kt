@@ -91,7 +91,7 @@ sealed class DataBlocks{
                 }
             }
             is DataBlocks.If -> {
-                val a = IfOperator(block.el1, block.choose, block.el2, block.listIf.size - 2)
+                val a = IfOperator(block.el1, block.choose, block.el2, (block.listIf.size - 2).toString())
 
                 if (!a.success){
                     for (j in a.errors){
@@ -100,8 +100,8 @@ sealed class DataBlocks{
                     }
                 }
             }
-            /*is DataBlocks.InputEl -> {
-                val a = InputBlock(block.name,)
+            is DataBlocks.InputEl -> {
+                val a = InputBlock(block.name)
 
                 if (!a.success){
                     for (j in a.errors){
@@ -109,7 +109,7 @@ sealed class DataBlocks{
                         flag = false
                     }
                 }
-            }*/
+            }
             //is DataBlocks.Else -> ElseOperator()
             //is DataBlocks.Cycle -> Cyc
             //is DataBlocks.Function ->

@@ -1,29 +1,26 @@
 package com.example.myapplication
 
-class IntVariable(): MainActivity() {
+class IntVariable(name: String): MainActivity() {
 
-    var name: String = ""
-    var value: Int = 0
     var success = true
     var errors = mutableListOf<String>()
 
-    constructor(string: String) : this() {
-        if (isCorrectVariableName(string)) {
-            this.name = string
-            this.value = 0
-            addToMap(string, 0)
+    init {
+        var newName = name.replace(" ", "")
+        if (isCorrectVariableName(newName)) {
+            addToMap(newName, 0)
         }
-        else if(isSequenceOfVariables(string)) {
-            processSequenceOfVariables(string)
+        else if(isSequenceOfVariables(newName)) {
+            processSequenceOfVariables(newName)
         }
         else {
-            this.errors.add("Cannot process string $string")
+            this.errors.add("Cannot process string $name")
             this.success = false
         }
     }
 
     private fun isSequenceOfVariables(sequenceOfVariables: String): Boolean {
-        val matchResult = Regex("(([A-Za-z]\\w*) *,* *)+").matchEntire(sequenceOfVariables)
+        val matchResult = Regex("(([A-Za-z]\\w*),*)+").matchEntire(sequenceOfVariables)
         return if (matchResult != null) {
             true
         }
@@ -42,7 +39,17 @@ class IntVariable(): MainActivity() {
     }
 
     private fun isCorrectVariableName(name: String): Boolean {
-        return Regex("[A-Za-z]\\w*").matchEntire(name) != null
+        return (Regex("[A-Za-z]\\w*").matchEntire(name) != null)
+    }
+
+    fun addToMap(name: String, value: Int) {
+        if(intVariables.containsKey(name)) {
+            this.success = false
+            this.errors.add("Variable $name has already been declared")
+        }
+        else {
+            intVariables[name] = value
+        }
     }
 
 }

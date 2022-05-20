@@ -2,8 +2,6 @@ package com.example.myapplication
 
 class AssignmentOperation(nameOfVariable: String, expression: String): MainActivity() {
 
-    var nameOfVariable: String = ""
-    var expression: String = ""
     var success = true
     var errors = mutableListOf<String>()
 
@@ -18,12 +16,10 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
         }
         else {
             if(expressionAfterOperator.correctExpression != null) {
-                this.expression = expressionAfterOperator.correctExpression as String
 
                 // Переменная - не элемент массива
-                if(variables.containsKey(nameOfVariable)) {
-                    this.nameOfVariable = nameOfVariable
-                    addToMap(this.nameOfVariable, expressionAfterOperator.valueOfExpression.toInt())
+                if(intVariables.containsKey(nameOfVariable)) {
+                    addToMap(nameOfVariable, expressionAfterOperator.valueOfExpression.toInt())
                 }
                 // Переменная - элемент массива
                 else if(isArrayVariable(nameOfVariable)) {
@@ -36,7 +32,7 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
                             break
                         }
                     }
-                    if(arrays.containsKey(nameOfArray)) {
+                    if(intArrays.containsKey(nameOfArray)) {
                         // Ищем индекс элемента в массиве
                         var indexExpression = ""
                         var flag = false
@@ -57,7 +53,13 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
                             }
                         }
                         var index = Expression(indexExpression)
-                        arrays[nameOfArray]!![index.valueOfExpression.toInt()] = expressionAfterOperator.valueOfExpression.toInt()
+                        if(index.valueOfExpression.toInt() >= intArrays[nameOfArray]!!.size) {
+                            this.success = false
+                            this.errors.add("Index $indexExpression out of range of array $nameOfArray")
+                        }
+                        else {
+                            intArrays[nameOfArray]!![index.valueOfExpression.toInt()] = expressionAfterOperator.valueOfExpression.toInt()
+                        }
                     }
                     else {
                         this.success = false
@@ -78,6 +80,15 @@ class AssignmentOperation(nameOfVariable: String, expression: String): MainActiv
 
     fun isArrayVariable(nameOfVariable: String): Boolean {
         return Regex("[a-zA-Z]\\w*\\[.+]").matchEntire(nameOfVariable) != null
+    }
+
+    fun addToMap(name: String, value: Int) {
+        if(intVariables.containsKey(name)) {
+            intVariables[name] = value
+        }
+        else {
+            intVariables[name] = value
+        }
     }
 
 }
