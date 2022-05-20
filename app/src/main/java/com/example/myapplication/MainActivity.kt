@@ -30,11 +30,13 @@ open class MainActivity : AppCompatActivity() {
 
     private var launcher: ActivityResultLauncher<Intent>? = null
     private lateinit var binding: ActivityMainBinding
-    private var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
-    private lateinit var blockAdapter: BlockAdapter
+
 
     companion object {
+        lateinit var blockAdapter: BlockAdapter
+
         @JvmField
+        var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
         var intVariables: MutableMap<String, Int> = mutableMapOf()
         var intArrays: MutableMap<String, Array<Int> > = mutableMapOf()
         var functions: MutableMap<String, MutableList<String> > = mutableMapOf()
