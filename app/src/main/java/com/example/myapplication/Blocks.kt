@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.example.namespace.R
 
 sealed class DataBlocks{
+    var flag: Boolean = true
     /*data class OneEdit(val title: String, val name: EditText) : DataBlocks()
     data class TwoEdits(val title: String,
                         val elem1: EditText,
@@ -39,7 +40,7 @@ sealed class DataBlocks{
     data class Begin(var text: String = ""): DataBlocks()
     data class End(var text: String = ""): DataBlocks()
 
-    fun doProgram(block: DataBlocks, text: TextView) : Boolean{
+    fun doProgram(block: DataBlocks, text: TextView) : String{
         var str: String = text.text.toString()
         when(block){
             is DataBlocks.InitInt -> {
@@ -48,7 +49,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
@@ -58,7 +59,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
@@ -68,7 +69,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
                 else {
@@ -81,7 +82,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j  + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
@@ -91,15 +92,26 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
+            /*is DataBlocks.InputEl -> {
+                val a = InputBlock(block.name,)
+
+                if (!a.success){
+                    for (j in a.errors){
+                        str += (j + "\n")
+                        flag = false
+                    }
+                }
+            }*/
             //is DataBlocks.Else -> ElseOperator()
             //is DataBlocks.Cycle -> Cyc
+            //is DataBlocks.Function ->
+            //is DataBlocks.Return ->
             else -> {}
         }
-        text.text = str
-        return true
+        return str
     }
 }

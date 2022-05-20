@@ -94,10 +94,11 @@ open class MainActivity : AppCompatActivity() {
             val text = view.findViewById<TextView>(R.id.output_result)
 
             for (block in programList){
-                var suc = block.doProgram(block, text)
+                text.text = block.doProgram(block, text)
 
-                if (!suc)
+                if (!block.flag){
                     break
+                }
             }
 
             closeButton.setOnClickListener {
