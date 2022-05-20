@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.util.Log
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
@@ -44,6 +45,7 @@ sealed class DataBlocks{
         var str: String = text.text.toString()
         when(block){
             is DataBlocks.InitInt -> {
+                Log.d("Int", block.name)
                 val a = IntVariable(block.name)
 
                 if (!a.success){
@@ -77,6 +79,8 @@ sealed class DataBlocks{
                 }
             }
             is DataBlocks.AssigmentEl -> {
+                Log.d("ass", block.el1)
+                Log.d("ass1", block.el2)
                 val a = AssignmentOperation(block.el1, block.el2)
 
                 if (!a.success){
@@ -110,7 +114,6 @@ sealed class DataBlocks{
             //is DataBlocks.Cycle -> Cyc
             //is DataBlocks.Function ->
             //is DataBlocks.Return ->
-            else -> {}
         }
         return str
     }

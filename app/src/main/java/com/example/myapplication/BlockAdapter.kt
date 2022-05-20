@@ -245,6 +245,38 @@ class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBl
         private fun bindAssigment(item: DataBlocks.AssigmentEl, list: MutableList<DataBlocks>) {
             val variable = itemView.findViewById(R.id.nameVar) as EditText
             val value = itemView.findViewById(R.id.value) as EditText
+
+            variable.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+                override fun onEditorAction(
+                    p0: TextView?,
+                    keyCode: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                        item.el1 = variable.getText().toString()
+
+                        return true
+                    }
+                    return false
+                }
+            })
+
+            value.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+                override fun onEditorAction(
+                    p0: TextView?,
+                    keyCode: Int,
+                    event: KeyEvent?
+                ): Boolean {
+                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                        item.el2 = value.getText().toString()
+
+                        return true
+                    }
+                    return false
+                }
+            })
+
+
         }
         private fun bindReturn(item: DataBlocks.Return, list: MutableList<DataBlocks>){
             val returnVar = itemView.findViewById(R.id.val_return) as EditText
