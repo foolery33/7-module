@@ -61,7 +61,7 @@
             android:background="@drawable/rectangle"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/ubuntu"
-            android:hint="Переменные"
+            android:hint="Параметры"
             android:textColor="#383636"
             android:textSize="20sp" />
 

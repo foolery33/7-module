@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.RelativeLayout
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +16,7 @@ import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.namespace.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -86,6 +85,27 @@ open class MainActivity : AppCompatActivity() {
 
         MenuButton.setOnClickListener{
             launcher?.launch(Intent(this@MainActivity, BlockMenuActivity::class.java))
+        }
+
+        RunButton.setOnClickListener {
+            val result = BottomSheetDialog(this)
+            val view = layoutInflater.inflate(R.layout.run_console, null)
+            val closeButton = view.findViewById<ImageButton>(R.id.delete_console)
+            val text = view.findViewById<TextView>(R.id.output_result)
+
+            for (block in programList){
+                var suc = block.doProgram(block, text)
+
+                if (!suc)
+                    break
+            }
+
+            closeButton.setOnClickListener {
+                result.dismiss()
+            }
+            result.setCancelable(false)
+            result.setContentView(view)
+            result.show()
         }
 
         val simpleCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN

@@ -39,6 +39,7 @@
             android:textColor="#383636"
             android:fontFamily="@font/ubuntu"
             android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white" />
+            android:backgroundTint="@color/white"
+            android:inputType="text"/>
     </RelativeLayout>
 </RelativeLayout>
