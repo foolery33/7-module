@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.*
@@ -26,14 +27,16 @@ open class MainActivity : AppCompatActivity() {
 
     private var launcher: ActivityResultLauncher<Intent>? = null
     private lateinit var binding: ActivityMainBinding
-    private var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
-    private lateinit var blockAdapter: BlockAdapter
-    //val recyclerView: RecyclerView = findViewById(R.id.rv_main)
 
-    companion object {
+
+
+    companion object{
+
         @JvmField
+        var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
         var variables = mutableMapOf<String, Int>()
         var arrays = mutableMapOf<String, Array<Int>>()
+        lateinit var blockAdapter: BlockAdapter
 
         var ifConditionsCounter = -1
         var ifConditions = mutableListOf<IfConditions>()
@@ -65,7 +68,6 @@ open class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setAdapter()
-
 
         val HelpButton: ImageButton = findViewById(R.id.help)
         val MenuButton: ImageButton = findViewById(R.id.menu)
@@ -103,6 +105,7 @@ open class MainActivity : AppCompatActivity() {
                 if (!block.flag){
                     break
                 }
+
             }
 
             closeButton.setOnClickListener {
@@ -142,16 +145,38 @@ open class MainActivity : AppCompatActivity() {
     }
 
     fun addList(choice: String, programList: MutableList<DataBlocks>){
-        programList.add(when (choice) {
-            in "int" -> DataBlocks.InitInt()
-            in "array" -> DataBlocks.InitArray()
-            in "input" -> DataBlocks.InputEl()
-            in "output" -> DataBlocks.OutputEl()
-            in "if" -> DataBlocks.If()
-            in "cycle" -> DataBlocks.Cycle()
-            in "function" -> DataBlocks.Function()
-            else -> DataBlocks.AssigmentEl()
-        })
+        when (choice) {
+            in "int" ->
+                programList.add(DataBlocks.InitInt())
+            in "array" ->
+                programList.add(DataBlocks.InitArray())
+            in "input" ->
+                programList.add(DataBlocks.InputEl())
+            in "output" ->
+                programList.add(DataBlocks.OutputEl())
+            in "if" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.If())
+                programList.add(begin)
+                programList.add(end)
+            }
+            in "cycle" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.Cycle())
+                programList.add(begin)
+                programList.add(end)
+            }
+            in "function" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.Function())
+                programList.add(begin)
+                programList.add(end)
+            }
+            else -> programList.add(DataBlocks.AssigmentEl())
+        }
     }
 
     fun setAdapter(){

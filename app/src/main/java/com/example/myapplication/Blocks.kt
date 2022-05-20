@@ -1,33 +1,48 @@
 package com.example.myapplication
 
+import android.provider.ContactsContract
 import android.util.Log
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import com.example.namespace.R
+import java.text.FieldPosition
 
 sealed class DataBlocks{
     var flag: Boolean = true
-    /*data class OneEdit(val title: String, val name: EditText) : DataBlocks()
-    data class TwoEdits(val title: String,
-                        val elem1: EditText,
-                        val text1: String,
-                        val elem2: EditText,
-                        val text2: String) : DataBlocks()
-    data class NoEdits(val title: String) : DataBlocks()*/
 
     data class InitInt(var name: String = ""): DataBlocks()
     data class InitArray(var name: String = "", var len: String = ""): DataBlocks()
     data class InputEl(var name: String = ""): DataBlocks() {}
     data class OutputEl(var name: String = ""): DataBlocks(){}
     data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks(){}
-    data class If(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listIf: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
-    data class Else(var begin: Int, var end: Int,var listElse: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
-    data class Cycle(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listCycle: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
-    data class Function(var name: String = "", var elem: String = "", var begin: Int = -1, var end: Int = -1, var listFun: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
-    data class Return(var begin: Int = -1, var end: Int = -1): DataBlocks()
-    data class Begin(var text: String = ""): DataBlocks()
-    data class End(var text: String = ""): DataBlocks()
+    data class If(var el1: String = "", var el2: String = "", var choose: String = "",
+                  var listIf: MutableList<DataBlocks> = mutableListOf(), ): DataBlocks() {
+        fun addElse() {
+            val endblock = End()
+            val begin = Begin()
+            MainActivity.programList.add(Else())
+            MainActivity.programList.add(begin)
+            MainActivity.programList.add(endblock)
+            MainActivity.blockAdapter.notifyDataSetChanged()
+        }
+    }
+    data class Else(var listElse: MutableList<DataBlocks> = mutableListOf()): DataBlocks()
+    data class Cycle(var el1: String = "", var el2: String = "", var choose: String = "",
+                     var listCycle: MutableList<DataBlocks> = mutableListOf()): DataBlocks()
+    data class Function(var name: String = "", var elem: String = "",
+                        var listFun: MutableList<DataBlocks> = mutableListOf()): DataBlocks() {
+        fun addReturn() {
+            MainActivity.programList.add(Return())
+            MainActivity.blockAdapter.notifyDataSetChanged()
+        }
+
+    }
+    data class Return(var return_name: String = ""): DataBlocks()
+    data class Begin(var position: Int = -1): DataBlocks()
+    data class End(var position: Int = -1): DataBlocks()
 
     fun doProgram(block: DataBlocks, text: TextView) : String{
         var str: String = text.text.toString()

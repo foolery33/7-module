@@ -1,46 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/BlockReturn"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="returnb"
+            type="com.example.myapplication.DataBlocks.Return" />
+
+    </data>
 
     <RelativeLayout
+        android:id="@+id/BlockReturn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="#ED9090">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/name_return"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/ubuntu"
-            android:text="return"
-            android:textColor="#383636"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/val_return"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/name_return"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            android:fontFamily="@font/ubuntu"
-            android:hint="Возвращаемое значение"
-            android:textColor="#383636"
-            android:textSize="20sp" />
+            android:backgroundTint="#ED9090">
+
+            <TextView
+                android:id="@+id/name_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="return"
+                android:textColor="#383636"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/val_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/name_return"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Возвращаемое значение"
+                android:textColor="#383636"
+                android:textSize="20sp"
+                android:text="@={returnb.return_name}"/>
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
-
-
-
-</RelativeLayout>
+</layout>

@@ -1,79 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/BlockCycle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="cycleb"
+            type="com.example.myapplication.DataBlocks.Cycle" />
+
+    </data>
 
     <RelativeLayout
+        android:id="@+id/BlockCycle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="#A7D7E1">
+        android:layout_height="wrap_content">
 
-
-        <TextView
-            android:id="@+id/text_cycle"
+        <RelativeLayout
+            android:id="@+id/Cycle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/ubuntu"
-            android:text="cycle"
-            android:textColor="#383636"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/name1_cycle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Значение"
-            android:textSize="20sp"
-            android:layout_toEndOf="@+id/text_cycle"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:textColor="#383636"
-            android:fontFamily="@font/ubuntu"
+            android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            />
+            android:backgroundTint="#A7D7E1">
 
-        <Spinner
-            android:id="@+id/operator_choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:entries="@array/logic_operators"
-            android:background="@drawable/frame_for_logic"
-            android:layout_toEndOf="@id/name1_cycle"
-            android:layout_centerVertical="true"
-            />
 
-        <EditText
-            android:id="@+id/name2_cycle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Значение"
-            android:textSize="20sp"
-            android:layout_toEndOf="@+id/operator_choice"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:textColor="#383636"
-            android:fontFamily="@font/ubuntu"
-            android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            />
+            <TextView
+                android:id="@+id/text_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="cycle"
+                android:textColor="#383636"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/name1_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Значение"
+                android:textSize="20sp"
+                android:layout_toEndOf="@+id/text_cycle"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textColor="#383636"
+                android:fontFamily="@font/ubuntu"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:text="@={cycleb.el1}"/>
+
+            <EditText
+                android:id="@+id/operator_choice_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@+id/name1_cycle"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint=" == "
+                android:textColor="#383636"
+                android:textSize="20sp"
+                android:inputType="text"
+                android:text="@={cycleb.choose}"/>
+
+            <EditText
+                android:id="@+id/name2_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Значение"
+                android:textSize="20sp"
+                android:layout_toEndOf="@+id/operator_choice_cycle"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textColor="#383636"
+                android:fontFamily="@font/ubuntu"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:text="@={cycleb.el2}"/>
+
+
+        </RelativeLayout>
+
 
 
     </RelativeLayout>
-
-
-
-
-
-</RelativeLayout>
+</layout>

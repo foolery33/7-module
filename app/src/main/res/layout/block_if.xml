@@ -1,84 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="ifblock"
+            type="com.example.myapplication.DataBlocks.If" />
+
+    </data>
 
     <RelativeLayout
-        android:id="@+id/BlockInitIf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="#96B6E5">
+        android:id="@+id/BlockInitIf">
 
-        <TextView
-            android:id="@+id/text_if"
+        <RelativeLayout
+            android:id="@+id/BlockIf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/ubuntu"
-            android:text="if"
-            android:textColor="#383636"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/name1_if"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toEndOf="@+id/text_if"
+            android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            android:fontFamily="@font/ubuntu"
-            android:hint="Значение"
-            android:textColor="#383636"
-            android:textSize="20sp"
-            android:inputType="text"/>
+            android:backgroundTint="#96B6E5">
 
-        <Spinner
-            android:id="@+id/operator_choice_if"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/name1_if"
-            android:background="@drawable/frame_for_logic"
-            android:entries="@array/logic_operators" />
+            <TextView
+                android:id="@+id/text_if"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/ubuntu"
+                android:text="if"
+                android:textColor="#383636"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/name2_if"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/operator_choice_if"
-            android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            android:fontFamily="@font/ubuntu"
-            android:hint="Значение"
-            android:textColor="#383636"
-            android:textSize="20sp"
-            android:inputType="text"/>
+            <EditText
+                android:id="@+id/name1_if"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toEndOf="@+id/text_if"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Значение"
+                android:textColor="#383636"
+                android:textSize="20sp"
+                android:inputType="text"
+                android:text="@={ifblock.el1}"/>
 
-        <ImageButton
-            android:id="@+id/add_else"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_toEndOf="@+id/name2_if"
-            android:background="#96B6E5"
-            android:src="@drawable/add"
-            app:tint="#383636" />
+            <EditText
+                android:id="@+id/operator_choice_if"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@+id/name1_if"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint=" == "
+                android:textColor="#383636"
+                android:textSize="20sp"
+                android:inputType="text"
+                android:text="@={ifblock.choose}"/>
+
+            <EditText
+                android:id="@+id/name2_if"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/operator_choice_if"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/ubuntu"
+                android:hint="Значение"
+                android:textColor="#383636"
+                android:textSize="20sp"
+                android:inputType="text"
+                android:text="@={ifblock.el2}"/>
+
+            <ImageButton
+                android:id="@+id/add_else"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_toEndOf="@+id/name2_if"
+                android:background="#96B6E5"
+                android:src="@drawable/add"
+                app:tint="#383636"
+                android:onClick="@{() -> ifblock.addElse()}"
+                />
+        </RelativeLayout>
+
+
+
     </RelativeLayout>
-
-
-
-
-</RelativeLayout>
+</layout>
