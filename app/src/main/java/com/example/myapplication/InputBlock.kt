@@ -1,15 +1,20 @@
 package com.example.myapplication
 
-class InputBlock(name: String, value: String): MainActivity() {
-    var name = ""
+class InputBlock(name: String): MainActivity() {
+
     var value = ""
     var success = true
     var errors = mutableListOf<String>()
 
     init {
-        this.name = name
-        this.value = value
-        processData(this.name, this.value)
+        if(inputValues[name] != null) {
+            this.value = inputValues[name]!!
+            processData(name, this.value)
+        }
+        else {
+            this.success = false
+            this.errors.add("There are no such variable(-s) as $name")
+        }
     }
     fun processData(name: String, value: String) {
         var names = name.split(",")
@@ -31,4 +36,5 @@ class InputBlock(name: String, value: String): MainActivity() {
             }
         }
     }
+
 }

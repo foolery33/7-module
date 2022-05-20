@@ -1,11 +1,13 @@
 package com.example.myapplication
 
+import android.util.Log
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import com.example.namespace.R
 
 sealed class DataBlocks{
+    var flag: Boolean = true
     /*data class OneEdit(val title: String, val name: EditText) : DataBlocks()
     data class TwoEdits(val title: String,
                         val elem1: EditText,
@@ -16,21 +18,9 @@ sealed class DataBlocks{
 
     data class InitInt(var name: String = ""): DataBlocks()
     data class InitArray(var name: String = "", var len: String = ""): DataBlocks()
-    data class InputEl(var name: String = ""): DataBlocks() {
-        /*fun doProgram(){
-            InputBlock(name)
-        }*/
-    }
-    data class OutputEl(var name: String = ""): DataBlocks(){
-        fun doProgram(){
-            OutputBlock(name)
-        }
-    }
-    data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks(){
-        fun doProgram(){
-            AssignmentOperation(el1, el2)
-        }
-    }
+    data class InputEl(var name: String = ""): DataBlocks() {}
+    data class OutputEl(var name: String = ""): DataBlocks(){}
+    data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks(){}
     data class If(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listIf: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
     data class Else(var begin: Int, var end: Int,var listElse: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
     data class Cycle(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listCycle: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
@@ -39,7 +29,7 @@ sealed class DataBlocks{
     data class Begin(var text: String = ""): DataBlocks()
     data class End(var text: String = ""): DataBlocks()
 
-    fun doProgram(block: DataBlocks, text: TextView) : Boolean{
+    fun doProgram(block: DataBlocks, text: TextView) : String{
         var str: String = text.text.toString()
         when(block){
             is DataBlocks.InitInt -> {
@@ -48,7 +38,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
@@ -58,7 +48,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
@@ -68,7 +58,7 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
                     }
                 }
                 else {
@@ -81,25 +71,35 @@ sealed class DataBlocks{
                 if (!a.success){
                     for (j in a.errors){
                         str += (j  + "\n")
-                        return false
+                        flag = false
                     }
                 }
             }
             is DataBlocks.If -> {
-                val a = IfOperator(block.el1, block.choose, block.el2, block.listIf.size - 2)
+                val a = IfOperator(block.el1, block.choose, block.el2, (block.listIf.size - 2).toString())
 
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
-                        return false
+                        flag = false
+                    }
+                }
+            }
+            is DataBlocks.InputEl -> {
+                val a = InputBlock(block.name)
+
+                if (!a.success){
+                    for (j in a.errors){
+                        str += (j + "\n")
+                        flag = false
                     }
                 }
             }
             //is DataBlocks.Else -> ElseOperator()
             //is DataBlocks.Cycle -> Cyc
-            else -> {}
+            //is DataBlocks.Function ->
+            //is DataBlocks.Return ->
         }
-        text.text = str
-        return true
+        return str
     }
 }

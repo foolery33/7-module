@@ -1,18 +1,13 @@
 package com.example.myapplication
 
-class ElseOperator(beforeOperator: String, operator: String, afterOperator: String, numberOfElseCommands: Int) {
-    var operator = ""
-    var beforeOperator = ""
-    var afterOperator = ""
-    var result = false
+class ElseOperator(beforeOperator: String, operator: String, afterOperator: String, numberOfElseCommands: String) {
+
     var success = true
-    var numberOfElseCommands = 0
     var expressionBeforeOperator = Expression(beforeOperator)
     var expressionAfterOperator = Expression(afterOperator)
     var errors = mutableListOf<String>()
 
     init {
-        this.numberOfElseCommands = numberOfElseCommands
         if(expressionBeforeOperator.errors.size != 0) {
             for (i in expressionBeforeOperator.errors.indices) {
                 this.errors.add(expressionBeforeOperator.errors[i])
@@ -24,29 +19,26 @@ class ElseOperator(beforeOperator: String, operator: String, afterOperator: Stri
             }
         }
         else {
-            this.beforeOperator = beforeOperator
-            this.operator = operator
-            this.afterOperator = afterOperator
-
-            this.result = isFalseComparison()
-            if(result) {
-                /* processOperations(ifConditions[numberOfElseCommands]) */
+            val result = isFalseComparison(expressionBeforeOperator.valueOfExpression.toInt(), operator, expressionAfterOperator.valueOfExpression.toInt())
+            if(result && this.success) {
+                //processCommands(elseConditions[numberOfElseCommands.toInt()])
             }
         }
     }
 
 
-    fun isFalseComparison(): Boolean {
-        when(this.operator) {
-            ">" -> return expressionBeforeOperator.valueOfExpression <= expressionAfterOperator.valueOfExpression
-            "<" -> return expressionBeforeOperator.valueOfExpression >= expressionAfterOperator.valueOfExpression
-            "==" -> return expressionBeforeOperator.valueOfExpression != expressionAfterOperator.valueOfExpression
-            "!=" -> return expressionBeforeOperator.valueOfExpression == expressionAfterOperator.valueOfExpression
-            ">=" -> return expressionBeforeOperator.valueOfExpression < expressionAfterOperator.valueOfExpression
-            "<=" -> return expressionBeforeOperator.valueOfExpression > expressionAfterOperator.valueOfExpression
+    fun isFalseComparison(first: Int, operator: String, second: Int): Boolean {
+        when(operator) {
+            ">" -> return (first <= second)
+            "<" -> return (first >= second)
+            "==" -> return (first != second)
+            "!=" -> return (first == second)
+            ">=" -> return (first < second)
+            "<=" -> return (first > second)
         }
         this.errors.add("Incorrect operator $operator")
         this.success = false
         return false
     }
+
 }

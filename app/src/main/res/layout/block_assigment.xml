@@ -1,62 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/BlockAssigment"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="assigments"
+            type="com.example.myapplication.DataBlocks.AssigmentEl" />
+
+    </data>
 
     <RelativeLayout
+        android:id="@+id/BlockAssigment"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/rectangle"
-        android:backgroundTint="#A9DD97">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/nameVar"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Переменная"
-            android:textSize="20sp"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"
-            android:textColor="#383636"
-            android:fontFamily="@font/ubuntu"
+            android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"
-            />
+            android:backgroundTint="#A9DD97">
+
+            <EditText
+                android:id="@+id/nameVar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Переменная"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:textColor="#383636"
+                android:fontFamily="@font/ubuntu"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:inputType="text"
+                android:text="@={assigments.el1}"/>
 
 
-        <TextView
-            android:id="@+id/assign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toEndOf="@+id/nameVar"
-            android:fontFamily="@font/ubuntu"
-            android:text="="
-            android:textColor="#383636"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/assign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/nameVar"
+                android:fontFamily="@font/ubuntu"
+                android:text="="
+                android:textColor="#383636"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Значение"
-            android:textSize="20sp"
-            android:layout_toEndOf="@+id/assign"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:textColor="#383636"
-            android:fontFamily="@font/ubuntu"
-            android:background="@drawable/rectangle"
-            android:backgroundTint="@color/white"/>
+            <EditText
+                android:id="@+id/value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Значение"
+                android:textSize="20sp"
+                android:layout_toEndOf="@+id/assign"
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:textColor="#383636"
+                android:fontFamily="@font/ubuntu"
+                android:background="@drawable/rectangle"
+                android:backgroundTint="@color/white"
+                android:inputType="number"
+                android:text="@={assigments.el2}"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
-
-</RelativeLayout>
+</layout>

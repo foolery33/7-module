@@ -2,48 +2,47 @@ package com.example.myapplication
 
 class StaticArray(name: String, length: String): MainActivity() {
 
-    var name = ""
-    var length = 0
     var success = true
     var errors = mutableListOf<String>()
 
     init {
-
         if(isCorrectName(name)) {
-            this.name = name
-        }
-        else {
-            this.success = false
-            this.errors.add("Incorrect name of array `$name`")
-        }
-
-        var expression = Expression(length)
-        if(expression.success) {
-            this.length = expression.valueOfExpression.toInt()
-        }
-        else {
-            this.success = false
-            this.errors.add("Incorrect length of array `$length`")
-        }
-
-        if(this.success) {
-            if(!arrays.containsKey(this.name)) {
-                if(variables.containsKey(this.name)) {
+            var lengthExpression = Expression(length)
+            if(lengthExpression.success) {
+                if(lengthExpression.valueOfExpression.toInt() <= 0) {
                     this.success = false
-                    this.errors.add("Variable ${this.name} has the same name")
-                }
-                else {
-                    arrays[this.name] = Array(this.length) { -92314123 }
+                    this.errors.add("Length of array can't be less than zero")
                 }
             }
             else {
                 this.success = false
-                this.errors.add("Array ${this.name} has already been initialized")
+                this.errors.add("Incorrect length of array `$length`")
             }
+
+            if(this.success) {
+                if(!intArrays.containsKey(name)) {
+                    if(intVariables.containsKey(name)) {
+                        this.success = false
+                        this.errors.add("Variable $name has the same name as array $name")
+                    }
+                    else {
+                        intArrays[name] = Array(length.toInt()) { -92314123 }
+                    }
+                }
+                else {
+                    this.success = false
+                    this.errors.add("Array $name has already been initialized")
+                }
+            }
+        }
+        else {
+            this.success = false
+            this.errors.add("Incorrect name of array `$name`")
         }
     }
 
     fun isCorrectName(name: String): Boolean {
         return Regex("[a-zA-Z]\\w*").matchEntire(name) != null
     }
+
 }
