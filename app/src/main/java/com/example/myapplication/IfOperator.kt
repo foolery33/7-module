@@ -1,8 +1,11 @@
 package com.example.myapplication
 
-class IfOperator(beforeOperator: String, operator: String, afterOperator: String, numberOfIfCommands: String): MainActivity() {
+import android.widget.TextView
+
+class IfOperator(beforeOperator: String, operator: String, afterOperator: String, ifCommands: MutableList<DataBlocks>, text: TextView): MainActivity() {
 
     var success = true
+    var result = false
     var expressionBeforeOperator = Expression(beforeOperator)
     var expressionAfterOperator = Expression(afterOperator)
     var errors = mutableListOf<String>()
@@ -19,10 +22,10 @@ class IfOperator(beforeOperator: String, operator: String, afterOperator: String
             }
         }
         else {
-
             val result = isTrueComparison(expressionBeforeOperator.valueOfExpression.toInt(), operator, expressionAfterOperator.valueOfExpression.toInt())
-            if(result && this.success) {
-                //processCommands(ifConditions[numberOfIfCommands.toInt()])
+            this.result = result
+            if(this.result && this.success) {
+                processBlocks(ifCommands, text)
             }
         }
     }

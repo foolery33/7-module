@@ -1,6 +1,6 @@
 package com.example.myapplication
 
-class Cycle(beforeOperator: String, operator: String, afterOperator: String, numberOfCycleCommands: String): MainActivity() {
+class Cycle(beforeOperator: String, operator: String, afterOperator: String, cycleCommands: MutableList<DataBlocks>): MainActivity() {
 
     var success = true
     var errors = mutableListOf<String>()
@@ -28,7 +28,7 @@ class Cycle(beforeOperator: String, operator: String, afterOperator: String, num
                 val currentAfterOperatorExpression = Expression(afterOperator)
                 if(currentBeforeOperatorExpression.success && currentAfterOperatorExpression.success) {
                     if (isTrueComparison(currentBeforeOperatorExpression.valueOfExpression.toInt(), operator, currentAfterOperatorExpression.valueOfExpression.toInt())) {
-                        //processCommands(cycleCommands[numberOfCycleCommands.toInt()])
+                        //processBlocks(cycleCommands)
                     }
                     else {
                         break

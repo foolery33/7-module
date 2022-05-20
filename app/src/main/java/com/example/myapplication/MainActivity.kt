@@ -54,6 +54,9 @@ open class MainActivity : AppCompatActivity() {
 
         var returnFlag = "default"
 
+        var previousBlock = ""
+        var previousBlockLength = 0
+        var previousIfResult = false
         var inputCounter = 0
         var input = 0
         var inputNames = mutableListOf<String>()
@@ -191,13 +194,16 @@ open class MainActivity : AppCompatActivity() {
         val closeButton = view.findViewById<ImageButton>(R.id.delete_console)
         val text = view.findViewById<TextView>(R.id.output_result)
 
-        for (block in programList){
+        processBlocks(programList, text)
+
+/*        for (block in programList){
+
             text.text = block.doProgram(block, text)
 
-            if (!block.flag){
+            if (!block.flag) {
                 break
             }
-        }
+        }*/
 
         closeButton.setOnClickListener {
             result.dismiss()
@@ -206,6 +212,68 @@ open class MainActivity : AppCompatActivity() {
         result.setCancelable(false)
         result.setContentView(view)
         result.show()
+    }
+
+    fun processBlocks(blocks: MutableList<DataBlocks>, text: TextView) {
+        var i = 0
+        while (i < blocks.size) {
+
+            if(blocks[i] is DataBlocks.Else) {
+                if(previousBlock == "if") {
+                    if(!previousIfResult) {
+                        blocks[i].doProgram(blocks[i], text, i, blocks)
+                    }
+                    i += getCommandsLength(blocks, i + 1) + 3
+                }
+                else {
+                    // выдать ошибку и завершить выполнение программы
+                }
+            }
+
+            else {
+                text.text = blocks[i].doProgram(blocks[i], text, i, blocks)
+            }
+
+            if (!blocks[i].flag) {
+                break
+            }
+
+            if(blocks[i] is DataBlocks.If) {
+                i += getCommandsLength(blocks, i + 1) + 3
+                previousBlock = "if"
+            }
+            else {
+                previousBlock = ""
+                i++
+            }
+        }
+    }
+
+    fun getCommandsLength(blocks: MutableList<DataBlocks>, index: Int): Int {
+        var commands = mutableListOf<DataBlocks>()
+        var i = index
+        if(blocks[i] is DataBlocks.Begin) {
+            var counter = 1
+            var j = i + 1
+            while (counter != 0 && j < blocks.size) {
+                if(blocks[j] is DataBlocks.Begin) {
+                    counter++
+                }
+                else if(blocks[j] is DataBlocks.End) {
+                    counter--;
+                }
+                commands.add(blocks[j])
+                j++
+            }
+            j -= 1
+        }
+        else {
+            // выдать ошибку и прекратить выполнение программы
+        }
+        if(commands[commands.size - 1] is DataBlocks.End) {
+            commands.removeAt(commands.size - 1)
+        }
+        return commands.size
     }
 
     fun addList(choice: String, programList: MutableList<DataBlocks>) {
