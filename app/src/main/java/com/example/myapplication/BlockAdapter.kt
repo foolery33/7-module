@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.core.content.ContentProviderCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
@@ -65,8 +66,8 @@ class BlockAdapter(private val adapterBlocks: MutableList<DataBlocks>): Recycler
             is DataBlocks.AssigmentEl -> TYPE_ASSIGMENT
             is DataBlocks.Else -> TYPE_ELSE
             is DataBlocks.Return -> TYPE_RETURN
-            is DataBlocks.Begin -> TYPE_BEGIN
             is DataBlocks.End -> TYPE_END
+            else -> TYPE_BEGIN
         }
     }
 
@@ -102,83 +103,25 @@ class BlockAdapter(private val adapterBlocks: MutableList<DataBlocks>): Recycler
         private fun bindAssigment(item: DataBlocks.AssigmentEl, list: MutableList<DataBlocks>, binding: BlockAssigmentBinding) {
             binding.assigments = item
         }
-        private fun bindIf(item: DataBlocks.If, list: MutableList<DataBlocks>){
-            val leftIf = itemView.findViewById(R.id.name1_if) as EditText
-            val rightIf = itemView.findViewById(R.id.name2_if) as EditText
-            val operateI = itemView.findViewById(R.id.operator_choice_if) as Spinner
-            val addButton = itemView.findViewById(R.id.add_else) as ImageButton
-
-
-            list.add(DataBlocks.Begin())
-            item.begin = list.indexOf(item)
-            list.add(DataBlocks.End())
-            item.end = list.indexOf(item) + 2
-
-            leftIf.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.el1 = leftIf.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
-            rightIf.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.el2 = rightIf.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
-            operateI.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    item.choose = p0?.getItemAtPosition(p2).toString()
-                    Log.d("Spin", item.choose)
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    item.choose = p0?.getItemAtPosition(0).toString()
-                    Log.d("Spin", item.choose)
-                }
-
-            }
-
-            addButton.setOnClickListener{
-
-            }
-
+        private fun bindIf(item: DataBlocks.If, list: MutableList<DataBlocks>, binding: BlockIfBinding){
+            binding.ifblock = item
         }
-        private fun bindCycle(item: DataBlocks.Cycle, list: MutableList<DataBlocks>){
-            val leftCycle = itemView.findViewById(R.id.name1_cycle) as EditText
-            val rightCycle = itemView.findViewById(R.id.name2_cycle) as EditText
-            val operateC = itemView.findViewById(R.id.operator_choice) as Spinner
+        private fun bindCycle(item: DataBlocks.Cycle, list: MutableList<DataBlocks>, binding: BlockCycleBinding){
+            binding.cycleb = item
         }
-        private fun bindFunction(item: DataBlocks.Function, list: MutableList<DataBlocks>){
-            val leftIf = itemView.findViewById(R.id.name_function) as EditText
-            val rightIf = itemView.findViewById(R.id.len_function) as EditText
-            val addButton = itemView.findViewById(R.id.add_return) as ImageButton
+        private fun bindFunction(item: DataBlocks.Function, list: MutableList<DataBlocks>, binding: BlockFunctionBinding){
+            binding.function = item
         }
-        private fun bindReturn(item: DataBlocks.Return, list: MutableList<DataBlocks>){
-            val returnVar = itemView.findViewById(R.id.val_return) as EditText
+        private fun bindReturn(item: DataBlocks.Return, list: MutableList<DataBlocks>, binding: BlockReturnBinding){
+            binding.returnb = item
         }
-        private fun bindElse(item: DataBlocks.Else, list: MutableList<DataBlocks>){
-        }
-        private fun bindBegin(item: DataBlocks.Begin, list: MutableList<DataBlocks>){
-            //val textVBegin = itemView.findViewById(R.id.begin_text) as TextView?
+        private fun bindElse(item: DataBlocks.Else, list: MutableList<DataBlocks>, binding: BlockElseBinding){
+            binding.elseb = item
         }
         private fun bindEnd(item: DataBlocks.End, list: MutableList<DataBlocks>){
+            //val textVEnd = itemView.findViewById(R.id.end_text) as TextView?
+        }
+        private fun bindBegin(item: DataBlocks.Begin, list: MutableList<DataBlocks>){
             //val textVEnd = itemView.findViewById(R.id.end_text) as TextView?
         }
 
@@ -192,14 +135,16 @@ class BlockAdapter(private val adapterBlocks: MutableList<DataBlocks>): Recycler
                 )
                 is DataBlocks.InputEl -> bindInput(dataModel, list, binding as BlockInputBinding)
                 is DataBlocks.OutputEl -> bindOutput(dataModel, list, binding as BlockOutputBinding)
-                is DataBlocks.If -> bindIf(dataModel, list)
-                is DataBlocks.Cycle -> bindCycle(dataModel, list)
-                is DataBlocks.Function -> bindFunction(dataModel, list)
+                is DataBlocks.If -> bindIf(dataModel, list, binding as BlockIfBinding)
+                is DataBlocks.Cycle -> bindCycle(dataModel, list, binding as BlockCycleBinding)
+                is DataBlocks.Function -> bindFunction(dataModel, list,
+                    binding as BlockFunctionBinding
+                )
                 is DataBlocks.AssigmentEl -> bindAssigment(dataModel, list, binding as BlockAssigmentBinding)
-                is DataBlocks.Else -> bindElse(dataModel, list)
-                is DataBlocks.Return -> bindReturn(dataModel, list)
-                is DataBlocks.Begin -> bindBegin(dataModel, list)
+                is DataBlocks.Else -> bindElse(dataModel, list, binding as BlockElseBinding)
+                is DataBlocks.Return -> bindReturn(dataModel, list, binding as BlockReturnBinding)
                 is DataBlocks.End -> bindEnd(dataModel, list)
+                is DataBlocks.Begin -> bindBegin(dataModel, list)
             }
         }
     }

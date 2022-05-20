@@ -277,19 +277,38 @@ open class MainActivity : AppCompatActivity() {
     }
 
     fun addList(choice: String, programList: MutableList<DataBlocks>) {
-        programList.add(when (choice) {
-            in "int" -> DataBlocks.InitInt()
-            in "array" -> DataBlocks.InitArray()
-            in "input" ->  {
-                inputCounter++
-                DataBlocks.InputEl()
+        when (choice) {
+            in "int" ->
+                programList.add(DataBlocks.InitInt())
+            in "array" ->
+                programList.add(DataBlocks.InitArray())
+            in "input" ->
+                programList.add(DataBlocks.InputEl())
+            in "output" ->
+                programList.add(DataBlocks.OutputEl())
+            in "if" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.If())
+                programList.add(begin)
+                programList.add(end)
             }
-            in "output" -> DataBlocks.OutputEl()
-            in "if" -> DataBlocks.If()
-            in "cycle" -> DataBlocks.Cycle()
-            in "function" -> DataBlocks.Function()
-            else -> DataBlocks.AssigmentEl()
-        })
+            in "cycle" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.Cycle())
+                programList.add(begin)
+                programList.add(end)
+            }
+            in "function" -> {
+                val end = DataBlocks.End()
+                val begin = DataBlocks.Begin()
+                programList.add(DataBlocks.Function())
+                programList.add(begin)
+                programList.add(end)
+            }
+            else -> programList.add(DataBlocks.AssigmentEl())
+        }
     }
 
     fun setAdapter() {
