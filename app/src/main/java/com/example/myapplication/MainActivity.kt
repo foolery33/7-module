@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.*
 import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.namespace.R
+import com.example.namespace.databinding.ActivityMainBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,6 +25,10 @@ import kotlin.collections.ArrayList
 open class MainActivity : AppCompatActivity() {
 
     private var launcher: ActivityResultLauncher<Intent>? = null
+    private lateinit var binding: ActivityMainBinding
+    private var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
+    private lateinit var blockAdapter: BlockAdapter
+    //val recyclerView: RecyclerView = findViewById(R.id.rv_main)
 
     companion object {
         @JvmField
@@ -57,11 +62,10 @@ open class MainActivity : AppCompatActivity() {
         OutputBlock("array[array[0]+array[2]]")
         OutputBlock("array[4]")
 
-        val recyclerView: RecyclerView = findViewById(R.id.rv_main)
-        val programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
-        val blockAdapter: BlockAdapter = BlockAdapter(this, programList)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = blockAdapter
+
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setAdapter()
+
 
         val HelpButton: ImageButton = findViewById(R.id.help)
         val MenuButton: ImageButton = findViewById(R.id.menu)
@@ -103,6 +107,7 @@ open class MainActivity : AppCompatActivity() {
 
             closeButton.setOnClickListener {
                 result.dismiss()
+                text.text = ""
             }
             result.setCancelable(false)
             result.setContentView(view)
@@ -132,7 +137,7 @@ open class MainActivity : AppCompatActivity() {
         }
 
         val itemTouchHelper = ItemTouchHelper(simpleCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        itemTouchHelper.attachToRecyclerView(binding.rvMain)
 
     }
 
@@ -147,6 +152,14 @@ open class MainActivity : AppCompatActivity() {
             in "function" -> DataBlocks.Function()
             else -> DataBlocks.AssigmentEl()
         })
+    }
+
+    fun setAdapter(){
+        blockAdapter = BlockAdapter(programList)
+        binding.rvMain.apply{
+            layoutManager = LinearLayoutManager(this@MainActivity)
+            adapter = blockAdapter
+        }
     }
 }
 

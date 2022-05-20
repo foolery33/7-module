@@ -1,6 +1,8 @@
 package com.example.myapplication
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -9,32 +11,33 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 
 import com.example.namespace.R
+import com.example.namespace.databinding.*
 import java.lang.IllegalArgumentException
 
-class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBlocks>): RecyclerView.Adapter<BlockAdapter.BlockHolder>() {
+class BlockAdapter(private val adapterBlocks: MutableList<DataBlocks>): RecyclerView.Adapter<BlockAdapter.BlockHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BlockHolder {
-        val layout = when (viewType){
-            TYPE_INITINT -> R.layout.block_init_int
-            TYPE_INITARR -> R.layout.block_init_array
-            TYPE_INPUT -> R.layout.block_input
-            TYPE_OUTPUT -> R.layout.block_output
-            TYPE_IF -> R.layout.block_if
-            TYPE_CYCLE -> R.layout.block_cycle
-            TYPE_FUNCTION -> R.layout.block_function
-            TYPE_ASSIGMENT -> R.layout.block_assigment
-            TYPE_BEGIN -> R.layout.subblock_begin
-            TYPE_END -> R.layout.subblock_end
-            TYPE_ELSE -> R.layout.block_else
-            TYPE_RETURN -> R.layout.block_return
-            else -> throw IllegalArgumentException("Invalid view type")
-        }
+        return BlockHolder(
+            when (viewType){
+                TYPE_INITINT -> BlockInitIntBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_INITARR -> BlockInitArrayBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_INPUT -> BlockInputBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_OUTPUT -> BlockOutputBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_IF -> BlockIfBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_CYCLE -> BlockCycleBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_FUNCTION -> BlockFunctionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_ASSIGMENT -> BlockAssigmentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_BEGIN -> SubblockBeginBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_END -> SubblockEndBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_ELSE -> BlockElseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TYPE_RETURN -> BlockReturnBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                else -> throw IllegalArgumentException("Invalid view type")
+            }
+        )
 
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-
-        return BlockHolder(view)
     }
 
     override fun onBindViewHolder(holder: BlockHolder, position: Int) {
@@ -83,96 +86,21 @@ class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBl
     }
 
 
-    class BlockHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        private fun bindInitInt(item: DataBlocks.InitInt, list: MutableList<DataBlocks>){
-            val nameEdit = itemView.findViewById<EditText>(R.id.init_int)
-
-            nameEdit.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.name = nameEdit.getText().toString()
-                        Log.d("Int", item.name)
-
-                        return true
-                    }
-                    return false
-                }
-            })
-
+    class BlockHolder(private var binding: ViewBinding) : RecyclerView.ViewHolder(binding.root){
+        private fun bindInitInt(item: DataBlocks.InitInt, list: MutableList<DataBlocks>, binding: BlockInitIntBinding){
+            binding.initint = item
         }
-        private fun bindInitArr(item: DataBlocks.InitArray, list: MutableList<DataBlocks>){
-            val nameArr = itemView.findViewById(R.id.name_array) as EditText
-            val lenArr = itemView.findViewById(R.id.len_array) as EditText
-
-            nameArr.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.name = nameArr.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
-
-            lenArr.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.len = lenArr.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
+        private fun bindInitArr(item: DataBlocks.InitArray, list: MutableList<DataBlocks>, binding: BlockInitArrayBinding){
+            binding.array = item
         }
-        private fun bindInput(item: DataBlocks.InputEl, list: MutableList<DataBlocks>){
-            val textInput = itemView.findViewById(R.id.name_input) as EditText
-
-            textInput.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.name = textInput.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
+        private fun bindInput(item: DataBlocks.InputEl, list: MutableList<DataBlocks>, binding: BlockInputBinding){
+            binding.inputB = item
         }
-        private fun bindOutput(item: DataBlocks.OutputEl, list: MutableList<DataBlocks>){
-            val textOutput = itemView.findViewById(R.id.edit_output) as EditText
-
-            textOutput.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.name = textOutput.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
+        private fun bindOutput(item: DataBlocks.OutputEl, list: MutableList<DataBlocks>, binding: BlockOutputBinding){
+            binding.outputB = item
+        }
+        private fun bindAssigment(item: DataBlocks.AssigmentEl, list: MutableList<DataBlocks>, binding: BlockAssigmentBinding) {
+            binding.assigments = item
         }
         private fun bindIf(item: DataBlocks.If, list: MutableList<DataBlocks>){
             val leftIf = itemView.findViewById(R.id.name1_if) as EditText
@@ -242,42 +170,6 @@ class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBl
             val rightIf = itemView.findViewById(R.id.len_function) as EditText
             val addButton = itemView.findViewById(R.id.add_return) as ImageButton
         }
-        private fun bindAssigment(item: DataBlocks.AssigmentEl, list: MutableList<DataBlocks>) {
-            val variable = itemView.findViewById(R.id.nameVar) as EditText
-            val value = itemView.findViewById(R.id.value) as EditText
-
-            variable.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.el1 = variable.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
-
-            value.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(
-                    p0: TextView?,
-                    keyCode: Int,
-                    event: KeyEvent?
-                ): Boolean {
-                    if (keyCode == EditorInfo.IME_ACTION_DONE) {
-                        item.el2 = value.getText().toString()
-
-                        return true
-                    }
-                    return false
-                }
-            })
-
-
-        }
         private fun bindReturn(item: DataBlocks.Return, list: MutableList<DataBlocks>){
             val returnVar = itemView.findViewById(R.id.val_return) as EditText
         }
@@ -292,14 +184,18 @@ class BlockAdapter(val c: Context, private val adapterBlocks: MutableList<DataBl
 
         fun bind(dataModel: DataBlocks, list: MutableList<DataBlocks>){
             when (dataModel){
-                is DataBlocks.InitInt -> bindInitInt(dataModel, list)
-                is DataBlocks.InitArray -> bindInitArr(dataModel, list)
-                is DataBlocks.InputEl -> bindInput(dataModel, list)
-                is DataBlocks.OutputEl -> bindOutput(dataModel, list)
+                is DataBlocks.InitInt -> bindInitInt(dataModel, list,
+                    binding as BlockInitIntBinding
+                )
+                is DataBlocks.InitArray -> bindInitArr(dataModel, list,
+                    binding as BlockInitArrayBinding
+                )
+                is DataBlocks.InputEl -> bindInput(dataModel, list, binding as BlockInputBinding)
+                is DataBlocks.OutputEl -> bindOutput(dataModel, list, binding as BlockOutputBinding)
                 is DataBlocks.If -> bindIf(dataModel, list)
                 is DataBlocks.Cycle -> bindCycle(dataModel, list)
                 is DataBlocks.Function -> bindFunction(dataModel, list)
-                is DataBlocks.AssigmentEl -> bindAssigment(dataModel, list)
+                is DataBlocks.AssigmentEl -> bindAssigment(dataModel, list, binding as BlockAssigmentBinding)
                 is DataBlocks.Else -> bindElse(dataModel, list)
                 is DataBlocks.Return -> bindReturn(dataModel, list)
                 is DataBlocks.Begin -> bindBegin(dataModel, list)

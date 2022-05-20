@@ -33,9 +33,7 @@ android {
         viewBinding true
     }
 
-    dataBinding {
-        enabled true
-    }
+    dataBinding.enabled = true
 
     namespace 'com.example.namespace'
 

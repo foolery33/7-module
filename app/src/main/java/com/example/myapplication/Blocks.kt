@@ -18,21 +18,9 @@ sealed class DataBlocks{
 
     data class InitInt(var name: String = ""): DataBlocks()
     data class InitArray(var name: String = "", var len: String = ""): DataBlocks()
-    data class InputEl(var name: String = ""): DataBlocks() {
-        /*fun doProgram(){
-            InputBlock(name)
-        }*/
-    }
-    data class OutputEl(var name: String = ""): DataBlocks(){
-        fun doProgram(){
-            OutputBlock(name)
-        }
-    }
-    data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks(){
-        fun doProgram(){
-            AssignmentOperation(el1, el2)
-        }
-    }
+    data class InputEl(var name: String = ""): DataBlocks() {}
+    data class OutputEl(var name: String = ""): DataBlocks(){}
+    data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks(){}
     data class If(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listIf: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
     data class Else(var begin: Int, var end: Int,var listElse: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
     data class Cycle(var el1: String = "", var el2: String = "", var choose: String = "", var begin: Int = -1, var end: Int = -1, var listCycle: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
@@ -45,7 +33,6 @@ sealed class DataBlocks{
         var str: String = text.text.toString()
         when(block){
             is DataBlocks.InitInt -> {
-                Log.d("Int", block.name)
                 val a = IntVariable(block.name)
 
                 if (!a.success){
@@ -79,8 +66,6 @@ sealed class DataBlocks{
                 }
             }
             is DataBlocks.AssigmentEl -> {
-                Log.d("ass", block.el1)
-                Log.d("ass1", block.el2)
                 val a = AssignmentOperation(block.el1, block.el2)
 
                 if (!a.success){
