@@ -251,6 +251,7 @@ open class MainActivity : AppCompatActivity() {
 
     fun processFunctionBlock(blocks: MutableList<DataBlocks>, text: TextView, nameOfFunction: String) {
         var i = 0
+        var error = ""
         while (i < blocks.size) {
 
             if(blocks[i] is DataBlocks.Else) {
@@ -265,7 +266,9 @@ open class MainActivity : AppCompatActivity() {
                     i += getCommandsLength(blocks, i + 1) + 3
                 }
                 else {
-                    // выдать ошибку и завершить выполнение программы
+                    error = "Previous block is not If"
+                    continueProgram(programList, error)
+                    break
                 }
             }
 
