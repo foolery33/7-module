@@ -16,6 +16,7 @@ open class HelpActivity : Activity() {
 
         buttonReturn.setOnClickListener{
             val intent = Intent(this@HelpActivity, MainActivity::class.java)
+            this.onDestroy()
             startActivity(intent)
         }
     }
