@@ -1,6 +1,8 @@
 package com.example.myapplication
 
-class Cycle(beforeOperator: String, operator: String, afterOperator: String, cycleCommands: MutableList<DataBlocks>): MainActivity() {
+import android.widget.TextView
+
+class Cycle(beforeOperator: String, operator: String, afterOperator: String, cycleCommands: MutableList<DataBlocks>, text: TextView): MainActivity() {
 
     var success = true
     var errors = mutableListOf<String>()
@@ -28,7 +30,7 @@ class Cycle(beforeOperator: String, operator: String, afterOperator: String, cyc
                 val currentAfterOperatorExpression = Expression(afterOperator)
                 if(currentBeforeOperatorExpression.success && currentAfterOperatorExpression.success) {
                     if (isTrueComparison(currentBeforeOperatorExpression.valueOfExpression.toInt(), operator, currentAfterOperatorExpression.valueOfExpression.toInt())) {
-                        //processBlocks(cycleCommands)
+                        processBlocks(cycleCommands, text)
                     }
                     else {
                         break

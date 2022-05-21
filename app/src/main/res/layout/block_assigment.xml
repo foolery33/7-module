@@ -65,7 +65,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
-                android:inputType="number"
+                android:inputType="text"
                 android:text="@={assigments.el2}"/>
 
         </RelativeLayout>
