@@ -25,6 +25,7 @@ sealed class DataBlocks: MainActivity(){
                           MainActivity.programList.add(end)
 
                           MainActivity.blockAdapter.notifyDataSetChanged()
+                          MainActivity.binding.rvMain.scrollToPosition(MainActivity.blockAdapter.itemCount - 1)
                       }
                   }
     data class Else(var listElse: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
@@ -36,6 +37,7 @@ sealed class DataBlocks: MainActivity(){
             MainActivity.programList.add(DataBlocks.Return())
 
             MainActivity.blockAdapter.notifyDataSetChanged()
+            MainActivity.binding.rvMain.scrollToPosition(MainActivity.blockAdapter.itemCount - 1)
         }
                         }
     data class Return(var return_name: String = ""): DataBlocks()
@@ -102,7 +104,8 @@ sealed class DataBlocks: MainActivity(){
                     }
                 }
                 else {
-                    str += (a.outputValue + "\n")
+                    for (value in a.outputValue)
+                        str += (value + "\n")
                 }
             }
             is DataBlocks.AssigmentEl -> {

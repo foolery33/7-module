@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#E5AB65">
+            android:backgroundTint="@color/array_color">
 
             <TextView
                 android:id="@+id/text_array"
@@ -30,7 +30,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="array"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -43,11 +43,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
-                android:inputType="text"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={array.name}"/>
 
             <TextView
@@ -59,7 +61,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:text="["
                 android:layout_toRightOf="@+id/name_array"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -70,11 +72,13 @@
                 android:textSize="20sp"
                 android:layout_toRightOf="@+id/open_bracket"
                 android:layout_centerVertical="true"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
-                android:inputType="text"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={array.len}"/>
 
             <TextView
@@ -86,7 +90,7 @@
                 android:fontFamily="@font/ubuntu"
                 android:text="]"
                 android:layout_toRightOf="@+id/len_array"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
         </RelativeLayout>

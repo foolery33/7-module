@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#ED9090">
+            android:backgroundTint="@color/function_color">
 
             <TextView
                 android:id="@+id/text_function"
@@ -31,7 +31,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="function"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -46,8 +46,11 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ubuntu"
                 android:hint="Название"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={function.name}"/>
 
             <TextView
@@ -59,7 +62,7 @@
                 android:layout_toEndOf="@+id/name_function"
                 android:fontFamily="@font/ubuntu"
                 android:text="("
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -72,8 +75,11 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ubuntu"
                 android:hint="Параметры"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={function.elem}"/>
 
             <TextView
@@ -85,7 +91,7 @@
                 android:layout_toEndOf="@+id/len_function"
                 android:fontFamily="@font/ubuntu"
                 android:text=")"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <ImageButton
@@ -96,9 +102,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/close_bracket"
-                android:background="#ED9090"
+                android:background="@color/function_color"
                 android:src="@drawable/add"
-                app:tint="#383636"
+                app:tint="@color/for_text"
                 android:onClick="@{() -> function.addReturn()}"/>
 
         </RelativeLayout>

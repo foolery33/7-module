@@ -29,11 +29,11 @@ import kotlin.system.exitProcess
 open class MainActivity : AppCompatActivity() {
 
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private lateinit var binding: ActivityMainBinding
 
 
     companion object {
         lateinit var blockAdapter: BlockAdapter
+        lateinit var binding: ActivityMainBinding
 
         @JvmField
         var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
@@ -73,14 +73,9 @@ open class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setAdapter()
 
-        val HelpButton: ImageButton = findViewById(R.id.help)
+
         val MenuButton: ImageButton = findViewById(R.id.menu)
         val RunButton: ImageButton = findViewById(R.id.run)
-
-        HelpButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, HelpActivity::class.java)
-            startActivity(intent)
-        }
 
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -90,6 +85,7 @@ open class MainActivity : AppCompatActivity() {
                         addList(choice, programList)
                     }
                     blockAdapter.notifyDataSetChanged()
+                    binding.rvMain.scrollToPosition(blockAdapter.itemCount - 1)
                 }
             }
 
@@ -98,13 +94,16 @@ open class MainActivity : AppCompatActivity() {
         }
 
         RunButton.setOnClickListener {
+            var error: String = ""
+
             for (i in programList) {
                 when (i) {
                     is DataBlocks.InputEl -> {
                         val matchResult = Regex("[a-zA-Z]\\w*").findAll(i.name)
                         matchResult.forEach { f ->
                             if (!inputNames.contains(f.value)) {
-                                //Вывести в консоль ошибку, что переменная не была объявлена и прекратить выполнение программы
+                                error = "Variable was not declared"
+                                continueProgram(programList, error)
                                 return@forEach
                             } else {
                                 var alertDialog = createAlert(i.name, programList)
@@ -121,7 +120,7 @@ open class MainActivity : AppCompatActivity() {
                 }
             }
             if(inputCounter == 0) {
-                continueProgram(programList)
+                continueProgram(programList, error)
             }
         }
 
@@ -174,7 +173,7 @@ open class MainActivity : AppCompatActivity() {
                 inputString =  editTextName1.text.toString()
                 inputValues[name] = inputString
                 if(input == inputCounter) {
-                    continueProgram(programList)
+                    continueProgram(programList, "")
                 }
             }
         }
@@ -183,20 +182,23 @@ open class MainActivity : AppCompatActivity() {
             inputString =  editTextName1.text.toString()
             inputValues[name] = inputString
             if(input == inputCounter) {
-                continueProgram(programList)
+                continueProgram(programList, "")
             }
         }
 
         return alertName
     }
 
-    fun continueProgram(programList: MutableList<DataBlocks>) {
+    fun continueProgram(programList: MutableList<DataBlocks>, errors: String) {
         val result = BottomSheetDialog(this)
         val view = layoutInflater.inflate(R.layout.run_console, null)
         val closeButton = view.findViewById<ImageButton>(R.id.delete_console)
         val text = view.findViewById<TextView>(R.id.output_result)
 
-        processBlocks(programList, text)
+        if (errors == "")
+            processBlocks(programList, text)
+        else
+            text.text = errors
 
 /*        for (block in programList){
 
@@ -218,6 +220,7 @@ open class MainActivity : AppCompatActivity() {
 
     fun processBlocks(blocks: MutableList<DataBlocks>, text: TextView) {
         var i = 0
+        var error: String = ""
         while (i < blocks.size) {
 
             if(blocks[i] is DataBlocks.Else) {
@@ -228,7 +231,9 @@ open class MainActivity : AppCompatActivity() {
                     i += getCommandsLength(blocks, i + 1) + 3
                 }
                 else {
-                    // выдать ошибку и завершить выполнение программы
+                    error = "Else doesn't have previous If"
+                    continueProgram(programList, error)
+                    break
                 }
             }
 
@@ -254,6 +259,7 @@ open class MainActivity : AppCompatActivity() {
     fun getCommandsLength(blocks: MutableList<DataBlocks>, index: Int): Int {
         var commands = mutableListOf<DataBlocks>()
         var i = index
+        var error = ""
         if(blocks[i] is DataBlocks.Begin) {
             var counter = 1
             var j = i + 1
@@ -270,7 +276,9 @@ open class MainActivity : AppCompatActivity() {
             j -= 1
         }
         else {
-            // выдать ошибку и прекратить выполнение программы
+            error = "If doesn't have Begin"
+            continueProgram(programList, error)
+            return 0
         }
         if(commands[commands.size - 1] is DataBlocks.End) {
             commands.removeAt(commands.size - 1)

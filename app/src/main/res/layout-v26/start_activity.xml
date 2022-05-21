@@ -14,37 +14,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
-        tools:context=".MainActivity">
+        tools:context=".StartActivity">
 
 
         <RelativeLayout
             android:id="@+id/main_box"
-            android:layout_width="361dp"
-            android:layout_height="192dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:background="@color/bg">
 
             <RelativeLayout
                 android:id="@+id/main_text"
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/round_rectangle">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:autoSizeTextType="uniform"
-                    android:fontFamily="@font/ubuntu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Hi, \nIt's time to code"
-                    android:textColor="#383636" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="50sp"
+                    android:textColor="#383636"/>
 
             </RelativeLayout>
 
@@ -55,6 +50,7 @@
                 android:layout_below="@id/main_text"
                 android:layout_marginTop="20dp"
                 android:autoSizeTextType="uniform"
+
                 android:backgroundTint="#C0E8FF"
                 android:fontFamily="@font/ubuntu"
                 android:text="Start"
@@ -66,7 +62,7 @@
         <View
             android:layout_width="81dp"
             android:layout_height="27dp"
-            app:srcCompat="@drawable/round_rectangle"></View>
+            app:srcCompat="@drawable/round_rectangle"/>
 
 
     </RelativeLayout>

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#96B6E5">
+            android:backgroundTint="@color/ifelse_color">
 
             <TextView
                 android:id="@+id/text_if"
@@ -32,7 +32,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="if"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -47,9 +47,11 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ubuntu"
                 android:hint="Значение"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp"
-                android:inputType="text"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={ifblock.el1}"/>
 
             <EditText
@@ -64,9 +66,11 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ubuntu"
                 android:hint=" == "
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp"
-                android:inputType="text"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={ifblock.choose}"/>
 
             <EditText
@@ -80,9 +84,11 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ubuntu"
                 android:hint="Значение"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp"
-                android:inputType="text"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:text="@={ifblock.el2}"/>
 
             <ImageButton
@@ -93,9 +99,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_toEndOf="@+id/name2_if"
-                android:background="#96B6E5"
+                android:background="@color/ifelse_color"
                 android:src="@drawable/add"
-                app:tint="#383636"
+                app:tint="@color/for_text"
                 android:onClick="@{() -> ifblock.addElse()}"
                 />
         </RelativeLayout>

@@ -8,4 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bg">#A3BBF6</color>
+    <color name="assign_color">#A9DD97</color>
+    <color name="cycle_color">#A7D7E1</color>
+    <color name="ifelse_color">#96B6E5</color>
+    <color name="function_color">#ED9090</color>
+    <color name="array_color">#E5AB65</color>
+    <color name="int_color">#DCD6A4</color>
+    <color name="input_color">#F2B2E0</color>
+    <color name="output_color">#D69AD8</color>
+    <color name="for_text">"#383636"</color>
 </resources>

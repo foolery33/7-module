@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#A9DD97">
+            android:backgroundTint="@color/assign_color">
 
             <EditText
                 android:id="@+id/nameVar"
@@ -30,7 +30,7 @@
                 android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_centerVertical="true"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
@@ -48,7 +48,7 @@
                 android:layout_toEndOf="@+id/nameVar"
                 android:fontFamily="@font/ubuntu"
                 android:text="="
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -61,11 +61,11 @@
                 android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
-                android:inputType="number"
+                android:inputType="text"
                 android:text="@={assigments.el2}"/>
 
         </RelativeLayout>

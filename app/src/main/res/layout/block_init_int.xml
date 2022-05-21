@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:background="@drawable/rectangle"
-            android:backgroundTint="#DCD6A4">
+            android:backgroundTint="@color/int_color">
 
             <TextView
                 android:id="@+id/text_int"
@@ -31,7 +31,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/ubuntu"
                 android:text="int"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:textSize="20sp" />
 
             <EditText
@@ -42,13 +42,14 @@
                 android:textSize="20sp"
                 android:layout_toEndOf="@+id/text_int"
                 android:layout_marginLeft="10dp"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:inputType="textMultiLine"
                 android:layout_marginRight="10dp"
-                android:textColor="#383636"
+                android:textColor="@color/for_text"
                 android:fontFamily="@font/ubuntu"
                 android:background="@drawable/rectangle"
                 android:backgroundTint="@color/white"
-                android:inputType="text"
                 android:text="@={initint.name}"/>
         </RelativeLayout>
     </RelativeLayout>

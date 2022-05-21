@@ -9,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +27,6 @@ open class BlockMenuActivity: Activity() {
         setContentView(R.layout.activity_blocksmenu)
 
         val BackButton: ImageButton = findViewById(R.id.return_block)
-        val HelpButton: ImageButton = findViewById(R.id.help_blocks)
 
         val listData: MutableList<ParentData> = ArrayList()
 

@@ -19,7 +19,7 @@
         </activity>
         <activity android:name="com.example.myapplication.MainActivity" />
         <activity android:name="com.example.myapplication.BlockMenuActivity" />
-        <activity android:name="com.example.myapplication.HelpActivity" />
+        <activity android:name="com.example.myapplication.AboutActivity" />
     </application>
 
 </manifest>
