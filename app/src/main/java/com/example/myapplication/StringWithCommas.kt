@@ -2,10 +2,12 @@ package com.example.myapplication
 
 class StringWithCommas(string: String): MainActivity() {
 
+    var string = ""
     var splittedElements: MutableList<String> = mutableListOf()
 
     init {
-        this.splittedElements = splitElements(string)
+        this.string = string.replace(" ", "")
+        this.splittedElements = splitElements(this.string)
     }
 
     fun splitElements(string: String): MutableList<String> {
@@ -21,8 +23,17 @@ class StringWithCommas(string: String): MainActivity() {
                     currentArgument += editedString[i]
                 }
                 else {
+                    currentArgument += editedString[i]
+                    i++
+                    var counter = 1
                     var j = i
-                    while (editedString[j] != ')' && j < editedString.length) {
+                    while (counter != 0 && j < editedString.length) {
+                        if(editedString[j] == '(') {
+                            counter++
+                        }
+                        if(editedString[j] == ')') {
+                            counter--
+                        }
                         currentArgument += editedString[j]
                         j++
                     }

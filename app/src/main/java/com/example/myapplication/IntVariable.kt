@@ -2,16 +2,17 @@ package com.example.myapplication
 
 class IntVariable(name: String): MainActivity() {
 
+    var name = ""
     var success = true
     var errors = mutableListOf<String>()
 
     init {
-        var newName = name.replace(" ", "")
-        if (isCorrectVariableName(newName)) {
-            addToMap(newName, 0)
+        this.name = name.replace(" ", "")
+        if (isCorrectVariableName(this.name)) {
+            addToMap(this.name, 0)
         }
-        else if(isSequenceOfVariables(newName)) {
-            processSequenceOfVariables(newName)
+        else if(isSequenceOfVariables(this.name)) {
+            processSequenceOfVariables(this.name)
         }
         else {
             this.errors.add("Cannot process string $name")

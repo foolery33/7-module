@@ -1,18 +1,21 @@
 package com.example.myapplication
 
-class OutputBlock(name: String): MainActivity() {
+import android.widget.TextView
 
+class OutputBlock(name: String, text: TextView): MainActivity() {
+
+    var name = ""
     var errors = mutableListOf<String>()
     var success = true
     var outputValue = mutableListOf<String>()
 
     init {
-        var elements = StringWithCommas(name).splittedElements
+        this.name = name.replace(" ", "")
+        var elements = StringWithCommas(this.name).splittedElements
         for (i in elements) {
-            var elementExpression = Expression(i)
+            var elementExpression = Expression(i, text)
             if(elementExpression.success) {
                 this.outputValue.add(elementExpression.valueOfExpression)
-                print("${elementExpression.valueOfExpression} ")
             }
             else {
                 this.success = false

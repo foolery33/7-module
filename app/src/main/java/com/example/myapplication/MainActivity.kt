@@ -36,28 +36,19 @@ open class MainActivity : AppCompatActivity() {
         lateinit var binding: ActivityMainBinding
 
         @JvmField
-        var programList: MutableList<DataBlocks> = mutableListOf<DataBlocks>()
+        var programList: MutableList<DataBlocks> = mutableListOf()
         var intVariables: MutableMap<String, Int> = mutableMapOf()
         var intArrays: MutableMap<String, Array<Int> > = mutableMapOf()
-        var functions: MutableMap<String, MutableList<String> > = mutableMapOf()
+        var functionArguments: MutableMap<String, MutableList<String> > = mutableMapOf()
 
-        var commands: MutableList<String> = mutableListOf()
-        var ifConditions: MutableList<MutableList<String> > = mutableListOf()
-        var elseConditions: MutableList<MutableList<String> > = mutableListOf()
-        var cycleCommands: MutableList<MutableList<String> > = mutableListOf()
-        var functionCommands: MutableList<MutableList<String> > = mutableListOf()
-        var functionReturnValues: MutableMap<Int, Int> = mutableMapOf()
+        var functionCommands: MutableMap<String, MutableList<DataBlocks> > = mutableMapOf()
+        var functionReturnValues: MutableMap<String, Int> = mutableMapOf()
         var functionNumberOfCommands: MutableMap<String, Int> = mutableMapOf()
-
-        var ifConditionsCounter = -1
-        var elseConditionsCounter = -1
-        var cycleCommandsCounter = -1
-        var functionCommandsCounter = 0
+        var currentFunctionNumber = -1
 
         var returnFlag = "default"
 
         var previousBlock = ""
-        var previousBlockLength = 0
         var previousIfResult = false
         var inputCounter = 0
         var input = 0
@@ -204,15 +195,6 @@ open class MainActivity : AppCompatActivity() {
         else
             text.text = errors
 
-/*        for (block in programList){
-
-            text.text = block.doProgram(block, text)
-
-            if (!block.flag) {
-                break
-            }
-        }*/
-
         closeButton.setOnClickListener {
             result.dismiss()
             text.text = ""
@@ -224,7 +206,7 @@ open class MainActivity : AppCompatActivity() {
 
     fun processBlocks(blocks: MutableList<DataBlocks>, text: TextView) {
         var i = 0
-        var error: String = ""
+        var error = ""
         while (i < blocks.size) {
 
             if(blocks[i] is DataBlocks.Else) {
@@ -247,6 +229,48 @@ open class MainActivity : AppCompatActivity() {
 
             else {
                 blocks[i].doProgram(blocks[i], text, i, blocks)
+                text.text = outputString
+                if (!blocks[i].flag) {
+                    break
+                }
+                if(blocks[i] is DataBlocks.If) {
+                    i += getCommandsLength(blocks, i + 1) + 3
+                    previousBlock = "if"
+                }
+                else if(blocks[i] is DataBlocks.Cycle) {
+                    i += getCommandsLength(blocks, i + 1) + 3
+                    previousBlock = ""
+                }
+                else {
+                    previousBlock = ""
+                    i++
+                }
+            }
+        }
+    }
+
+    fun processFunctionBlock(blocks: MutableList<DataBlocks>, text: TextView, nameOfFunction: String) {
+        var i = 0
+        while (i < blocks.size) {
+
+            if(blocks[i] is DataBlocks.Else) {
+                if(previousBlock == "if") {
+                    if(!previousIfResult) {
+                        blocks[i].doFunctionBlock(blocks[i], text, i, blocks, nameOfFunction)
+                        text.text = outputString
+                        if (!blocks[i].flag) {
+                            break
+                        }
+                    }
+                    i += getCommandsLength(blocks, i + 1) + 3
+                }
+                else {
+                    // выдать ошибку и завершить выполнение программы
+                }
+            }
+
+            else {
+                blocks[i].doFunctionBlock(blocks[i], text, i, blocks, nameOfFunction)
                 text.text = outputString
                 if (!blocks[i].flag) {
                     break
@@ -303,8 +327,10 @@ open class MainActivity : AppCompatActivity() {
                 programList.add(DataBlocks.InitInt())
             in "array" ->
                 programList.add(DataBlocks.InitArray())
-            in "input" ->
+            in "input" -> {
+                inputCounter++
                 programList.add(DataBlocks.InputEl())
+            }
             in "output" ->
                 programList.add(DataBlocks.OutputEl())
             in "if" -> {

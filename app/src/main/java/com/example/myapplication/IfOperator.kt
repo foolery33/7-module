@@ -2,29 +2,38 @@ package com.example.myapplication
 
 import android.widget.TextView
 
-class IfOperator(beforeOperator: String, operator: String, afterOperator: String, ifCommands: MutableList<DataBlocks>, text: TextView): MainActivity() {
+class IfOperator(
+    beforeOperator: String,
+    operator: String,
+    afterOperator: String,
+    ifCommands: MutableList<DataBlocks>,
+    text: TextView
+) : MainActivity() {
 
     var success = true
     var result = false
-    var expressionBeforeOperator = Expression(beforeOperator)
-    var expressionAfterOperator = Expression(afterOperator)
+    var expressionBeforeOperator = Expression(beforeOperator, text)
+    var expressionAfterOperator = Expression(afterOperator, text)
     var errors = mutableListOf<String>()
 
     init {
-        if(expressionBeforeOperator.errors.size != 0) {
+        if (expressionBeforeOperator.errors.size != 0) {
             for (i in expressionBeforeOperator.errors.indices) {
                 this.errors.add(expressionBeforeOperator.errors[i])
             }
         }
-        if(expressionAfterOperator.errors.size != 0) {
+        if (expressionAfterOperator.errors.size != 0) {
             for (i in expressionAfterOperator.errors.indices) {
                 this.errors.add(expressionAfterOperator.errors[i])
             }
-        }
-        else {
-            val result = isTrueComparison(expressionBeforeOperator.valueOfExpression.toInt(), operator, expressionAfterOperator.valueOfExpression.toInt())
+        } else {
+            val result = isTrueComparison(
+                expressionBeforeOperator.valueOfExpression.toInt(),
+                operator,
+                expressionAfterOperator.valueOfExpression.toInt()
+            )
             this.result = result
-            if(this.result && this.success) {
+            if (this.result && this.success) {
                 processBlocks(ifCommands, text)
             }
         }
@@ -32,7 +41,7 @@ class IfOperator(beforeOperator: String, operator: String, afterOperator: String
 
 
     fun isTrueComparison(first: Int, operator: String, second: Int): Boolean {
-        when(operator) {
+        when (operator) {
             ">" -> return (first > second)
             "<" -> return (first < second)
             "==" -> return (first == second)
