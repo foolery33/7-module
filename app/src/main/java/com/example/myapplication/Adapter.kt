@@ -13,17 +13,23 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.namespace.R
 
-class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, private var choice: String, private val onClickListener: ChoiceOnClick) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class RecycleAdapter(
+    var mContext: Context,
+    val list: MutableList<ParentData>,
+    private var choice: String,
+    private val onClickListener: ChoiceOnClick
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    fun getChoice() : String = choice
+    fun getChoice(): String = choice
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if(viewType == Constants.PARENT){
-            val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.parent_row, parent, false)
+        return if (viewType == Constants.PARENT) {
+            val rowView: View =
+                LayoutInflater.from(parent.context).inflate(R.layout.parent_row, parent, false)
             GroupViewHolder(rowView)
-        }
-        else{
-            val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.child_row, parent, false)
+        } else {
+            val rowView: View =
+                LayoutInflater.from(parent.context).inflate(R.layout.child_row, parent, false)
             ChildViewHolder(rowView)
         }
 
@@ -32,16 +38,15 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, p
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val dataList = list[position]
 
-        if(dataList.type == Constants.PARENT){
+        if (dataList.type == Constants.PARENT) {
             holder as GroupViewHolder
             holder.apply {
                 parentTV?.text = dataList.parentTitle
-                parentV.setOnClickListener{
+                parentV.setOnClickListener {
                     expandOrCollapseParentItem(dataList, position, downIV)
                 }
             }
-        }
-        else{
+        } else {
             holder as ChildViewHolder
 
             holder.apply {
@@ -54,12 +59,15 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, p
         }
     }
 
-    private fun expandOrCollapseParentItem(singleBoarding: ParentData, position: Int, icon: ImageView) {
-        if (singleBoarding.isExpanded){
+    private fun expandOrCollapseParentItem(
+        singleBoarding: ParentData,
+        position: Int,
+        icon: ImageView
+    ) {
+        if (singleBoarding.isExpanded) {
             icon.setBackgroundResource(R.drawable.icon_hide)
             collapseParentRow(position)
-        }
-        else {
+        } else {
             icon.setBackgroundResource(R.drawable.icon_show)
             expandParentRow(position)
         }
@@ -71,10 +79,9 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, p
         currentBoardingRow.isExpanded = true
         var nextPosition = position
 
-        if (currentBoardingRow.type == Constants.PARENT){
+        if (currentBoardingRow.type == Constants.PARENT) {
 
-            services.forEach{
-                service ->
+            services.forEach { service ->
                 val parentModel = ParentData()
                 parentModel.type = Constants.CHILD
                 val subList: ArrayList<ChildData> = ArrayList()
@@ -91,8 +98,8 @@ class RecycleAdapter(var mContext: Context, val list: MutableList<ParentData>, p
         val services = currentBoardingRow.subList
         list[position].isExpanded = false
 
-        if (list[position].type == Constants.PARENT){
-            services.forEach{ _ ->
+        if (list[position].type == Constants.PARENT) {
+            services.forEach { _ ->
                 list.removeAt(position + 1)
             }
             notifyDataSetChanged()
