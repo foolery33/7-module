@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/7-module/app/src/main/res/layout/block_assigment.xml" value="0.1" />
+        <entry key="..\:/7-module/app/src/main/res/layout/block_if.xml" value="0.37552083333333336" />
+        <entry key="..\:/7-module/app/src/main/res/layout/block_init_array.xml" value="0.1" />
+        <entry key="..\:/7-module/app/src/main/res/layout/block_init_int.xml" value="0.1" />
+        <entry key="..\:/7-module/app/src/main/res/layout/block_input.xml" value="0.1" />
+        <entry key="..\:/7-module/app/src/main/res/layout/block_output.xml" value="0.1" />
+        <entry key="..\:/7-module1/app/src/main/res/layout/block_assigment.xml" value="0.2695035460992908" />
         <entry key="..\:/Android Studio Projects/app/src/main/res/layout/activity_main.xml" value="0.4018181818181818" />
         <entry key="..\:/Users/radyg/Documents/GitHub/7-module/app/src/main/res/drawable/rectangle.xml" value="0.1" />
         <entry key="..\:/Users/radyg/Documents/GitHub/7-module/app/src/main/res/layout-v23/recycleview_item_formenu.xml" value="0.17603850050658562" />

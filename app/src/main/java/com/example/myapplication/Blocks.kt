@@ -15,7 +15,7 @@ sealed class DataBlocks: MainActivity(){
     data class OutputEl(var name: String = ""): DataBlocks(){}
     data class AssigmentEl(var el1: String = "", var el2: String = ""): DataBlocks()
     data class If(var el1: String = "", var el2: String = "", var choose: String = "",
-                  var listIf: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks(){
+                  var listIf: MutableList<DataBlocks> = mutableListOf()): DataBlocks(){
                       fun addElse(){
                           val begin = DataBlocks.Begin()
                           val end = DataBlocks.End()
@@ -30,9 +30,9 @@ sealed class DataBlocks: MainActivity(){
                   }
     data class Else(var listElse: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
     data class Cycle(var el1: String = "", var el2: String = "", var choose: String = "",
-                     var listCycle: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks()
+                     var listCycle: MutableList<DataBlocks> = mutableListOf()): DataBlocks()
     data class Function(var name: String = "", var elem: String = "",
-                        var listFun: MutableList<DataBlocks> = mutableListOf(Begin(), End())): DataBlocks(){
+                        var listFun: MutableList<DataBlocks> = mutableListOf()): DataBlocks(){
         fun addReturn(){
             MainActivity.programList.add(DataBlocks.Return())
 
@@ -80,6 +80,7 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
@@ -90,6 +91,7 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
@@ -100,12 +102,13 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
                 else {
-                    for (value in a.outputValue)
-                        str += (value + "\n")
+                    str += (a.outputValue.toString() + "\n")
+                    outputString += (a.outputValue.toString() + "\n")
                 }
             }
             is DataBlocks.AssigmentEl -> {
@@ -114,6 +117,7 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j  + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
@@ -121,9 +125,11 @@ sealed class DataBlocks: MainActivity(){
             is DataBlocks.If -> {
                 val a = IfOperator(block.el1, block.choose, block.el2, getCommands(blocks, index + 1), text)
                 previousIfResult = a.result
+
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
@@ -134,6 +140,7 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
@@ -144,11 +151,14 @@ sealed class DataBlocks: MainActivity(){
                 if (!a.success){
                     for (j in a.errors){
                         str += (j + "\n")
+                        outputString += (j + "\n")
                         flag = false
                     }
                 }
             }
-            //is DataBlocks.Cycle -> Cyc
+            is DataBlocks.Cycle -> {
+                val a = Cycle(block.el1, block.choose, block.el2, getCommands(blocks, index + 1), text)
+            }
             //is DataBlocks.Function ->
             //is DataBlocks.Return ->
         }

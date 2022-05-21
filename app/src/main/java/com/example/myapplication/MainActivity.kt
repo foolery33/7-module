@@ -64,6 +64,8 @@ open class MainActivity : AppCompatActivity() {
         var inputNames = mutableListOf<String>()
         var inputValues = mutableMapOf<String, String>()
 
+        var outputString = ""
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +97,9 @@ open class MainActivity : AppCompatActivity() {
 
         RunButton.setOnClickListener {
             var error: String = ""
-
+            intVariables.clear()
+            intArrays.clear()
+            outputString = ""
             for (i in programList) {
                 when (i) {
                     is DataBlocks.InputEl -> {
@@ -227,6 +231,10 @@ open class MainActivity : AppCompatActivity() {
                 if(previousBlock == "if") {
                     if(!previousIfResult) {
                         blocks[i].doProgram(blocks[i], text, i, blocks)
+                        text.text = outputString
+                        if (!blocks[i].flag) {
+                            break
+                        }
                     }
                     i += getCommandsLength(blocks, i + 1) + 3
                 }
@@ -238,20 +246,23 @@ open class MainActivity : AppCompatActivity() {
             }
 
             else {
-                text.text = blocks[i].doProgram(blocks[i], text, i, blocks)
-            }
-
-            if (!blocks[i].flag) {
-                break
-            }
-
-            if(blocks[i] is DataBlocks.If) {
-                i += getCommandsLength(blocks, i + 1) + 3
-                previousBlock = "if"
-            }
-            else {
-                previousBlock = ""
-                i++
+                blocks[i].doProgram(blocks[i], text, i, blocks)
+                text.text = outputString
+                if (!blocks[i].flag) {
+                    break
+                }
+                if(blocks[i] is DataBlocks.If) {
+                    i += getCommandsLength(blocks, i + 1) + 3
+                    previousBlock = "if"
+                }
+                else if(blocks[i] is DataBlocks.Cycle) {
+                    i += getCommandsLength(blocks, i + 1) + 3
+                    previousBlock = ""
+                }
+                else {
+                    previousBlock = ""
+                    i++
+                }
             }
         }
     }

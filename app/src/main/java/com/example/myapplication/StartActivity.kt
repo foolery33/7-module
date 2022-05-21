@@ -35,6 +35,7 @@ open class StartActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             val intent = Intent(this@StartActivity, MainActivity::class.java)
+            this.onDestroy()
             startActivity(intent)
         }
     }
